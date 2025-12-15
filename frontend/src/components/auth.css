@@ -1,0 +1,136 @@
+/* auth.css - shared styling for Signup / Login pages */
+
+/* page hero background (use same hero image as signup) */
+.auth-page {
+  min-height: calc(100vh - 72px); /* if you have header take space adjust */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 18px;
+  box-sizing: border-box;
+
+  background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836'); /* <-- use your signup image path */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* soft overlay to help card stand out */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+
+/* centered translucent card */
+.auth-card {
+  position: relative;
+  z-index: 2;
+  width: 440px;
+  max-width: calc(100% - 40px);
+  background: rgba(255,255,255,0.95);
+  border-radius: 14px;
+  padding: 30px 34px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* page title to match project look */
+.auth-title {
+  text-align: center;
+  margin: 2px 0 18px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* error box */
+.auth-error {
+  background: #ffe7e7;
+  color: #9b1c1c;
+  border: 1px solid rgba(155,28,28,0.08);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* form layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* inputs */
+.auth-input {
+  height: 46px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  transition: box-shadow .12s, border-color .12s;
+  box-sizing: border-box;
+}
+
+.auth-input:focus {
+  border-color: rgba(255, 193, 7, 0.92);
+  box-shadow: 0 6px 18px rgba(255,193,7,0.08);
+}
+
+/* yellow button consistent with your signup */
+.btn-yellow {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: linear-gradient(180deg,#ffd248,#f6c200);
+  color: #111;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(246,194,0,0.12);
+  transition: transform .06s ease, box-shadow .12s ease;
+}
+
+.btn-yellow:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(246,194,0,0.16); }
+.btn-yellow:active { transform: translateY(0); }
+
+/* submit specific spacing */
+.auth-submit { margin-top: 4px; }
+
+/* meta text and links */
+.auth-meta {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 6px 0;
+}
+
+.auth-meta a { color: #1a73e8; text-decoration: none; }
+
+/* smaller back button (same yellow) */
+.btn-back {
+  margin-top: 6px;
+  display: block;
+  text-align: center;
+  padding: 10px 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* responsive */
+@media (max-width: 520px) {
+  .auth-card { width: 92%; padding: 22px; }
+  .auth-title { font-size: 22px; }
+}

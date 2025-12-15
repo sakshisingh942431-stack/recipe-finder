@@ -1,0 +1,62 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.profile-title {
+  color: #d35400; /* dark orange */
+  margin-bottom: 20px;
+}
+
+.profile-card {
+  background-color: #ffe6cc; /* light orange */
+  padding: 25px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  min-width: 320px;
+}
+
+.profile-card p {
+  font-size: 18px;
+  margin: 12px 0;
+  color: #d35400; /* dark orange text */
+}
+
+.profile-card span {
+  font-weight: 600;
+}
+
+.profile-empty {
+  text-align: center;
+  margin-top: 80px;
+  color: #d35400;
+}
+.profile-subtitle {
+  margin-top: 30px;
+  color:#d35400;
+}
+
+.message-list {
+  margin-top: 15px;
+}
+
+.message-card {
+  background: #fff3e0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.message-text {
+  margin-bottom: 6px;
+  color: #d35400;
+}
+
+.message-date {
+  font-size: 0.8rem;
+  color: #d35400
+}
+

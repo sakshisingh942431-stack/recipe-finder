@@ -1,0 +1,135 @@
+.tips-page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* Tip of the Day */
+.tip-day {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  color: white;
+  padding: 22px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+}
+
+.tip-day h2 {
+  margin: 0 0 8px;
+}
+
+.tip-day p {
+  font-size: 16px;
+}
+
+/* Categories */
+.category-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.category-bar button {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #f1f1f1;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.category-bar .active {
+  background: #ff9800;
+  color: white;
+}
+
+/* Tips Grid */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* Tip Card */
+.tip-card {
+  background: #ffb74d
+
+;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tip-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+.tip-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.tip-text {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Save Button */
+.save-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+}
+
+.save-btn.saved {
+  color: #e53935;
+  font-weight: 600;
+}
+.tips-page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Page background */
+.tips-wrapper {
+  min-height: 100vh;
+  background-image: url("../assets/image.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 40px 0;
+}
+.more-tips-btn {
+  padding: 10px 22px;
+  border-radius: 25px;
+  border: none;
+  background: #ff9800;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.more-tips-btn:hover {
+  background:#ffb74d;
+}
+
+

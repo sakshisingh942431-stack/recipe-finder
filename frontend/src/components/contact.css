@@ -1,0 +1,132 @@
+.contact-container {
+  background-image: url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* Main card */
+.contact-card {
+  background: rgba(255, 243, 224, 0.96); /* light orange instead of white */
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(255, 152, 0, 0.35);
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Heading */
+.contact-card h2 {
+  color: #ff9800;
+  font-size: 1.9rem;
+  margin-bottom: 8px;
+}
+
+/* Subtitle text */
+.contact-card p {
+  color: #5d4037;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid #ffcc80;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.25s ease;
+  background: #fff;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #ff9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
+}
+
+/* Submit button */
+.contact-form button {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(255, 152, 0, 0.4);
+}
+
+/* Status message (success / error) */
+.form-status {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2e7d32; /* green success */
+}
+
+/* Support text */
+.support {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #4e342e;
+}
+
+.support a {
+  color: #ef6c00;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.support a:hover {
+  text-decoration: underline;
+}
+
+/* Back to Home Button */
+.home-btn {
+  display: inline-block;
+  margin-top: 22px;
+  padding: 10px 20px;
+  background: #ff9800;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.home-btn:hover {
+  background: #f57c00;
+  transform: translateY(-2px);
+}
+
+/* Small animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
