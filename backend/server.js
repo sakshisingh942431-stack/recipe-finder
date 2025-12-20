@@ -35,11 +35,11 @@ mongoose
 const userRoutes = require("./routes/userRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
 const contactRoutes = require("./routes/contactRoutes"); // ✅ NEW
-
+const tipRoutes = require("./routes/tipRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/contact", contactRoutes); // ✅ NEW
-
+app.use("/api/tips", tipRoutes);
 // serve frontend in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));

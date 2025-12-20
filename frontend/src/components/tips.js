@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./tips.css";
 import bgImage from "../assets/image.png";
+
+const API_BASE = "http://localhost:5000/api/tips";
+
+/* ===== STATIC TIPS (same as before) ===== */
 const TIPS = [
-  // ===== Beginner =====
+  // ===== Beginner (10) =====
   { id: 1, text: "Always read the entire recipe before starting.", category: "Beginner", icon: "📘" },
   { id: 2, text: "Measure ingredients properly for consistent results.", category: "Beginner", icon: "⚖️" },
   { id: 3, text: "Use sharp knives to make cutting safer and easier.", category: "Beginner", icon: "🔪" },
@@ -14,22 +18,22 @@ const TIPS = [
   { id: 9, text: "Use the correct pan size.", category: "Beginner", icon: "🥘" },
   { id: 10, text: "Don’t rush the cooking process.", category: "Beginner", icon: "⏳" },
 
-  // ===== Spices =====
+  // ===== Spices (10) =====
   { id: 11, text: "Use fresh herbs to enhance flavor.", category: "Spices", icon: "🌿" },
   { id: 12, text: "Toast spices to unlock more flavor.", category: "Spices", icon: "🔥" },
   { id: 13, text: "Grind whole spices instead of pre-ground.", category: "Spices", icon: "🌀" },
-  { id: 14, text: "Add delicate spices near the end of cooking.", category: "Spices", icon: "🧂" },
+  { id: 14, text: "Add delicate spices at the end.", category: "Spices", icon: "🧂" },
   { id: 15, text: "Store spices in airtight containers.", category: "Spices", icon: "📦" },
   { id: 16, text: "Avoid burning spices in hot oil.", category: "Spices", icon: "🚫" },
   { id: 17, text: "Use garam masala at the end.", category: "Spices", icon: "🌶️" },
   { id: 18, text: "Replace old spices regularly.", category: "Spices", icon: "🔄" },
-  { id: 19, text: "Balance spicy heat with acid.", category: "Spices", icon: "🍋" },
-  { id: 20, text: "Crush spices before adding to oil.", category: "Spices", icon: "🪨" },
+  { id: 19, text: "Balance spice with acid like lemon.", category: "Spices", icon: "🍋" },
+  { id: 20, text: "Crush spices before adding.", category: "Spices", icon: "🪨" },
 
-  // ===== Technique =====
-  { id: 21, text: "Don’t overcrowd the pan while cooking.", category: "Technique", icon: "🍳" },
-  { id: 22, text: "Preheat your pan before adding oil.", category: "Technique", icon: "⏱️" },
-  { id: 23, text: "Let water boil fully before adding pasta.", category: "Technique", icon: "💧" },
+  // ===== Technique (10) =====
+  { id: 21, text: "Don’t overcrowd the pan.", category: "Technique", icon: "🍳" },
+  { id: 22, text: "Preheat the pan before oil.", category: "Technique", icon: "⏱️" },
+  { id: 23, text: "Let water boil before adding pasta.", category: "Technique", icon: "💧" },
   { id: 24, text: "Cook on medium heat to avoid burning.", category: "Technique", icon: "🔥" },
   { id: 25, text: "Let food sear before flipping.", category: "Technique", icon: "🔁" },
   { id: 26, text: "Use lids to retain moisture.", category: "Technique", icon: "🫕" },
@@ -38,64 +42,110 @@ const TIPS = [
   { id: 29, text: "Use correct heat for sautéing.", category: "Technique", icon: "🔥" },
   { id: 30, text: "Avoid stirring constantly.", category: "Technique", icon: "✋" },
 
-  // ===== Protein =====
-  { id: 31, text: "Let meat rest before slicing for juicy results.", category: "Protein", icon: "🥩" },
-  { id: 32, text: "Marinate protein to enhance tenderness.", category: "Protein", icon: "🥣" },
-  { id: 33, text: "Bring meat to room temperature before cooking.", category: "Protein", icon: "🌡️" },
-  { id: 34, text: "Use a thermometer for perfect doneness.", category: "Protein", icon: "🌡️" },
+  // ===== Protein (10) =====
+  { id: 31, text: "Let meat rest before slicing.", category: "Protein", icon: "🥩" },
+  { id: 32, text: "Marinate protein for tenderness.", category: "Protein", icon: "🥣" },
+  { id: 33, text: "Bring meat to room temperature.", category: "Protein", icon: "🌡️" },
+  { id: 34, text: "Use thermometer for doneness.", category: "Protein", icon: "🌡️" },
   { id: 35, text: "Don’t flip meat repeatedly.", category: "Protein", icon: "🔁" },
   { id: 36, text: "Pat meat dry before cooking.", category: "Protein", icon: "🧻" },
-  { id: 37, text: "Use high heat to sear meat.", category: "Protein", icon: "🔥" },
+  { id: 37, text: "Use high heat to sear.", category: "Protein", icon: "🔥" },
   { id: 38, text: "Slice meat against the grain.", category: "Protein", icon: "🔪" },
-  { id: 39, text: "Avoid overcrowding protein in pan.", category: "Protein", icon: "🍖" },
+  { id: 39, text: "Avoid overcrowding protein.", category: "Protein", icon: "🍖" },
   { id: 40, text: "Rest grilled meat before serving.", category: "Protein", icon: "⏳" },
 
-  // ===== Quick Hacks =====
-  { id: 41, text: "Add lemon juice at the end to brighten dishes.", category: "Quick Hacks", icon: "🍋" },
-  { id: 42, text: "Fix excess salt by adding potato or cream.", category: "Quick Hacks", icon: "🥔" },
+  // ===== Quick Hacks (10) =====
+  { id: 41, text: "Add lemon juice to brighten dishes.", category: "Quick Hacks", icon: "🍋" },
+  { id: 42, text: "Fix excess salt with potato or cream.", category: "Quick Hacks", icon: "🥔" },
   { id: 43, text: "Soak onions to reduce bitterness.", category: "Quick Hacks", icon: "🧅" },
-  { id: 44, text: "Clean as you cook to save time.", category: "Quick Hacks", icon: "🧽" },
-  { id: 45, text: "Use ice water to keep veggies crisp.", category: "Quick Hacks", icon: "🧊" },
+  { id: 44, text: "Clean as you cook.", category: "Quick Hacks", icon: "🧽" },
+  { id: 45, text: "Use ice water for crisp veggies.", category: "Quick Hacks", icon: "🧊" },
   { id: 46, text: "Add sugar to balance acidity.", category: "Quick Hacks", icon: "🍬" },
   { id: 47, text: "Use leftover rice for fried rice.", category: "Quick Hacks", icon: "🍚" },
   { id: 48, text: "Microwave lemons for more juice.", category: "Quick Hacks", icon: "⚡" },
-  { id: 49, text: "Use curd to soften spicy dishes.", category: "Quick Hacks", icon: "🥛" },
-  { id: 50, text: "Keep herbs fresh in damp paper towel.", category: "Quick Hacks", icon: "🌿" },
+  { id: 49, text: "Use curd to reduce spice heat.", category: "Quick Hacks", icon: "🥛" },
+  { id: 50, text: "Wrap herbs in damp paper towel.", category: "Quick Hacks", icon: "🌿" },
 ];
 
-  
 
 const CATEGORIES = ["All", "Beginner", "Spices", "Technique", "Protein", "Quick Hacks"];
+
 export default function Tips() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [tipOfDay, setTipOfDay] = useState(null);
   const [savedTips, setSavedTips] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
 
-  // Tip of the Day
+  const token = localStorage.getItem("token");
+
+  /* ================= TIP OF THE DAY ================= */
   useEffect(() => {
     setTipOfDay(TIPS[Math.floor(Math.random() * TIPS.length)]);
   }, []);
 
-  // Load saved tips from localStorage
+  /* ================= FETCH SAVED TIPS FROM BACKEND ================= */
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("savedTips")) || [];
-    setSavedTips(stored);
-  }, []);
+    if (!token) return;
 
-  // Reset visible tips when category changes
+    const fetchSavedTips = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/my`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        setSavedTips(data);
+      } catch (err) {
+        console.error("Failed to load saved tips", err);
+      }
+    };
+
+    fetchSavedTips();
+  }, [token]);
+
+  /* ================= RESET ON CATEGORY CHANGE ================= */
   useEffect(() => {
     setVisibleCount(6);
   }, [selectedCategory]);
 
-  const toggleSave = (tip) => {
-    const exists = savedTips.find((t) => t.id === tip.id);
-    const updated = exists
-      ? savedTips.filter((t) => t.id !== tip.id)
-      : [...savedTips, tip];
+  /* ================= SAVE TIP TO BACKEND ================= */
+  const toggleSave = async (tip) => {
+    if (!token) {
+      alert("Please login to save tips");
+      return;
+    }
 
-    setSavedTips(updated);
-    localStorage.setItem("savedTips", JSON.stringify(updated));
+    const alreadySaved = savedTips.some(
+      (t) => t.description === tip.text
+    );
+
+    if (alreadySaved) {
+      alert("Tip already saved");
+      return;
+    }
+
+    try {
+      await fetch(API_BASE, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: tip.category,
+          description: tip.text,
+        }),
+      });
+
+      setSavedTips((prev) => [
+        ...prev,
+        { title: tip.category, description: tip.text },
+      ]);
+    } catch (err) {
+      console.error("Failed to save tip", err);
+    }
   };
 
   const filteredTips =
@@ -113,7 +163,7 @@ export default function Tips() {
       <div className="tips-overlay">
         <div className="tips-page">
 
-          {/* Tip of the Day */}
+          {/* ===== Tip of the Day ===== */}
           {tipOfDay && (
             <div className="tip-day">
               <h2>🌟 Tip of the Day</h2>
@@ -121,7 +171,7 @@ export default function Tips() {
             </div>
           )}
 
-          {/* Categories */}
+          {/* ===== Categories ===== */}
           <div className="category-bar">
             {CATEGORIES.map((cat) => (
               <button
@@ -134,10 +184,12 @@ export default function Tips() {
             ))}
           </div>
 
-          {/* Tips Grid */}
+          {/* ===== Tips Grid ===== */}
           <div className="tips-grid">
             {visibleTips.map((tip) => {
-              const isSaved = savedTips.some((t) => t.id === tip.id);
+              const isSaved = savedTips.some(
+                (t) => t.description === tip.text
+              );
 
               return (
                 <div key={tip.id} className="tip-card">
@@ -156,7 +208,7 @@ export default function Tips() {
             })}
           </div>
 
-          {/* More Tips Button */}
+          {/* ===== More Tips ===== */}
           {visibleCount < filteredTips.length && (
             <div style={{ textAlign: "center", marginTop: "30px" }}>
               <button
