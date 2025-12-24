@@ -46,6 +46,19 @@ export default function Login() {
         name:response.data.name,
         email:email,
       });
+// ✅ ADD THESE LINES
+localStorage.setItem("token", token);
+localStorage.setItem(
+  "user",
+  JSON.stringify({
+    id: userId,
+    name: response.data.name,
+    email: email,
+  })
+);
+
+// redirect
+navigate(next, { replace: true });
 
       // after successful login, navigate to the requested page
       navigate(next, { replace: true });

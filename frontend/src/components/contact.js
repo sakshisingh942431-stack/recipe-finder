@@ -21,7 +21,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
-
+ 
     try {
       const res = await fetch("http://localhost:5000/api/contact", {
         method: "POST",
