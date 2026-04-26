@@ -1,87 +1,131 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import API from "../utils/auth";
-import { AuthContext } from "../context/AuthContext";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import PremiumSidebar from "./premiumUser/PremiumSidebar";
+import "./favorites.css";
 
-const Favorites = () => {
-  const { user } = useContext(AuthContext);
+export default function Favorites() {
   const navigate = useNavigate();
 
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
+  const [userName, setUserName] = useState("User");
+
+  const recipes = [
+    {
+      id: "111",
+      name: "High Protein Bowl",
+      calories: "320 Calories",
+      image:
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+    },
+    {
+      id: "222",
+      name: "Weight Loss Salad",
+      calories: "210 Calories",
+      image:
+        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd"
+    },
+    {
+      id: "333",
+      name: "Fruit Smoothie",
+      calories: "180 Calories",
+      image:
+        "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4"
+    }
+  ];
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
+    const user =
+      JSON.parse(localStorage.getItem("user")) || {};
+
+    if (user.name) {
+      setUserName(user.name);
     }
 
-    const fetchFavorites = async () => {
-      try {
-        const res = await API.get("/api/users/favorites");
+    const liked =
+      JSON.parse(localStorage.getItem("favorites")) || [];
 
-        // ✅ FIX HERE
-        setRecipes(res.data.favorites || []);
-      } catch (err) {
-        console.error("Favorites fetch error", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const data = recipes.filter((item) =>
+      liked.includes(item.id)
+    );
 
-    fetchFavorites();
-  }, [user, navigate]);
+    setFavorites(data);
+  }, []);
 
-  if (loading) return <p style={{ padding: 20 }}>Loading favorites...</p>;
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
-  if (!recipes.length) {
-    return <p style={{ padding: 20 }}>No favorites yet ❤️</p>;
-  }
+  const removeFavorite = (id) => {
+    const updated = favorites.filter(
+      (item) => item.id !== id
+    );
+
+    setFavorites(updated);
+
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(updated.map((x) => x.id))
+    );
+  };
 
   return (
-    <div style={{ padding: "1.5rem", maxWidth: 1100, margin: "auto" }}>
-      <h2>❤️ My Favorite Recipes</h2>
+    <div className="favorites-page">
+      <PremiumSidebar onLogout={handleLogout} />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill,minmax(250px,1fr))",
-          gap: 20,
-        }}
-      >
-        {recipes.map((recipe) => (
-          <Link
-            key={recipe._id}
-            to={`/recipes/${recipe._id}`}
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              border: "1px solid #eee",
-              borderRadius: 10,
-              padding: 12,
-              boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
-            }}
-          >
-            {recipe.image && (
-              <img
-                src={recipe.image}
-                alt={recipe.title}
-                style={{
-                  width: "100%",
-                  height: 160,
-                  objectFit: "cover",
-                  borderRadius: 8,
-                }}
-              />
-            )}
+      <div className="favorites-main">
 
-            <h4 style={{ marginTop: 10 }}>{recipe.title}</h4>
-            <p style={{ color: "#666" }}>{recipe.category}</p>
-          </Link>
-        ))}
+        <div className="favorites-hero">
+          <h1>❤️ My Favorites</h1>
+          <p>Welcome {userName}</p>
+        </div>
+
+        <div className="favorites-grid">
+
+          {favorites.length === 0 ? (
+            <h2>No favorites yet.</h2>
+          ) : (
+            favorites.map((item) => (
+              <div
+                className="favorite-card"
+                key={item.id}
+              >
+                <button
+                  className="remove-heart"
+                  onClick={() =>
+                    removeFavorite(item.id)
+                  }
+                >
+                  <FaHeart />
+                </button>
+
+                <img
+                  src={item.image}
+                  alt={item.name}
+                />
+
+                <div className="favorite-body">
+                  <h3>{item.name}</h3>
+                  <p>{item.calories}</p>
+
+                  <button
+                    className="view-btn"
+                    onClick={() =>
+                      navigate(`/recipes/${item.id}`)
+                    }
+                  >
+                    View Recipe
+                  </button>
+                </div>
+
+              </div>
+            ))
+          )}
+
+        </div>
       </div>
     </div>
   );
-};
-
-export default Favorites;
+}

@@ -1,128 +1,285 @@
-
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  FaHeartbeat,
+  FaTint,
+  FaUsers,
+  FaPlayCircle,
+  FaHeart,
+  FaUtensils,
+  FaStar,
+  FaChartLine,
+  FaLeaf
+} from "react-icons/fa";
+
 import "./home.css";
+import logo from "../assets/logo.png";
 
 const Home = () => {
   const navigate = useNavigate();
 
- const handleCuisineClick = (cuisine) => {
-  // Indian / Italian cards -> Search page with category filter
-  navigate(`/search?category=${encodeURIComponent(cuisine)}`);
-};
+  const handleCuisineClick = (category) => {
+    navigate(
+      `/search?category=${encodeURIComponent(category)}`
+    );
+  };
 
-const handleCategoryClick = (category) => {
-  // Drinks / Diet / Sweet cards -> Search page with category filter
-  navigate(`/search?category=${encodeURIComponent(category)}`);
-};
+  const features = [
+    {
+      icon: <FaUtensils />,
+      title: "Healthy Recipes"
+    },
+    {
+      icon: <FaHeartbeat />,
+      title: "BMI Tracker"
+    },
+    {
+      icon: <FaTint />,
+      title: "Water Intake"
+    },
+    {
+      icon: <FaPlayCircle />,
+      title: "Short Videos"
+    },
+    {
+      icon: <FaUsers />,
+      title: "Community"
+    },
+    {
+      icon: <FaHeart />,
+      title: "Favorites"
+    }
+  ];
+
+  const categories = [
+    {
+      name: "Indian",
+      img: "/recipe-images/indian-food.jpg"
+    },
+    {
+      name: "Italian",
+      img: "/recipe-images/italian-food.jpg"
+    },
+    {
+      name: "Drinks",
+      img:
+        "https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      name: "Diet",
+      img: "/recipe-images/diet-food.jpg"
+    },
+    {
+      name: "Sweet",
+      img: "/recipe-images/sweet.jpg"
+    }
+  ];
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
+
+      {/* Floating Background */}
+      <div className="blob blob1"></div>
+      <div className="blob blob2"></div>
+      <div className="blob blob3"></div>
+
+      {/* HERO */}
+
       <section className="hero">
-        <div className="hero-text">
+
+        <div className="hero-left">
+
+          <span className="tagline">
+            <FaLeaf /> Healthy Living Platform
+          </span>
+
           <h1>
-            Welcome to <span className="brand">Recipe Finder</span> 🍳
+            Eat Smart With{" "}
+            <span>NutriNest</span>
+
+            <img
+              src={logo}
+              alt="logo"
+              className="hero-logo"
+            />
           </h1>
-          <p>Discover, cook, and save your favorite recipes — all in one place.</p>
-          <Link
-  to="/search"
-  style={{
-    padding: "10px 18px",
-    background: "orange",
-    color: "white",
-    borderRadius: "8px",
-    textDecoration: "none",
-    fontWeight: "600",
-  }}
->
-  Explore Recipes
-</Link>
+
+          <p>
+            Discover healthy recipes,
+            track calories, watch short
+            videos and build better
+            habits every day.
+          </p>
+
+          <div className="hero-btns">
+
+            <Link
+              to="/search"
+              className="primary-btn"
+            >
+              Explore Recipes
+            </Link>
+
+            <Link
+              to="/dashboard"
+              className="secondary-btn"
+            >
+              Open Dashboard
+            </Link>
+
+          </div>
+
+          <div className="hero-stats">
+
+            <div>
+              <h3>1200+</h3>
+              <p>Recipes</p>
+            </div>
+
+            <div>
+              <h3>800+</h3>
+              <p>Users</p>
+            </div>
+
+            <div>
+              <h3>300+</h3>
+              <p>Videos</p>
+            </div>
+
+          </div>
 
         </div>
+
+        <div className="hero-right">
+
+          <div className="hero-image-card">
+            <img
+              src="https://images.unsplash.com/photo-1490645935967-10de6ba17061"
+              alt="Healthy Food"
+            />
+
+            <div className="mini-card one">
+              <FaChartLine />
+              <span>Calories</span>
+            </div>
+
+            <div className="mini-card two">
+              <FaStar />
+              <span>Top Rated</span>
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
-      {/* Featured Categories */}
+      {/* FEATURES */}
+
+      <section className="features">
+
+        <h2>
+          Why Choose NutriNest?
+        </h2>
+
+        <div className="feature-grid">
+
+          {features.map(
+            (item, index) => (
+              <div
+                className="feature-card"
+                key={index}
+              >
+                <div className="feature-icon">
+                  {item.icon}
+                </div>
+
+                <h3>
+                  {item.title}
+                </h3>
+              </div>
+            )
+          )}
+
+        </div>
+
+      </section>
+
+      {/* CATEGORY */}
+
       <section className="categories">
-        <h2>Popular Categories</h2>
+
+        <h2>
+          Popular Categories
+        </h2>
 
         <div className="category-grid">
-          {/* Indian -> Veg / Non-veg cards */}
-          <div
-            className="category-card"
-            onClick={() => handleCuisineClick("indian")}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src="/recipe-images/indian-food.jpg"
-              alt="Indian Food"
-            />
-            <h3>Indian</h3>
-          </div>
 
-          {/* Italian -> Veg / Non-veg cards */}
-          <div
-            className="category-card"
-            onClick={() => handleCuisineClick("italian")}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src="/recipe-images/italian-food.jpg"
-              alt="Italian Food"
-            />
-            <h3>Italian</h3>
-          </div>
+          {categories.map(
+            (item, index) => (
+              <div
+                className="category-card"
+                key={index}
+                onClick={() =>
+                  handleCuisineClick(
+                    item.name
+                  )
+                }
+              >
+                <img
+                  src={item.img}
+                  alt=""
+                />
 
-          {/* Drinks -> direct */}
-          <div
-            className="category-card"
-            onClick={() => handleCategoryClick("drinks")}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?auto=compress&cs=tinysrgb&w=800"
-              alt="Drinks"
-            />
-            <h3>Drinks</h3>
-          </div>
+                <h3>
+                  {item.name}
+                </h3>
+              </div>
+            )
+          )}
 
-          {/* Diet Food -> Veg / Non-veg cards */}
-          <div
-            className="category-card"
-            onClick={() => handleCuisineClick("diet")}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src="/recipe-images/diet-food.jpg"
-              alt="Diet Food"
-            />
-            <h3>Diet Food</h3>
-          </div>
-
-          {/* Sweet Dish -> sweet options page */}
-          <div
-            className="category-card"
-            onClick={() => handleCategoryClick("sweet")}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src="/recipe-images/sweet.jpg"
-              alt="Sweet Dish"
-            />
-            <h3>Sweet Dish</h3>
-          </div>
         </div>
+
       </section>
 
-      {/* Call to Action */}
+      {/* PREMIUM CTA */}
+
       <section className="cta">
-        <h2>Got your own recipe idea? 👩‍🍳</h2>
-        <p>Save it now and share your creativity with the world!</p>
-        <Link to="/myrecipes" className="save-btn">
-          Save a Recipe
-        </Link>
+
+        <div className="cta-box">
+
+          <h2>
+            Build Better Food Habits
+          </h2>
+
+          <p>
+            Join NutriNest and turn
+            your daily meals into a
+            healthier lifestyle.
+          </p>
+
+          <Link
+            to="/signup"
+            className="primary-btn"
+          >
+            Join Free Today
+          </Link>
+
+        </div>
+
       </section>
+
+      {/* FOOTER */}
+
+      <footer className="footer">
+
+        <h3>NutriNest</h3>
+
+        <p>
+          Eat Better • Live Better
+        </p>
+
+      </footer>
+
     </div>
   );
 };

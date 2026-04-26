@@ -16,7 +16,7 @@ const RecipeSchema = new mongoose.Schema(
     category: { type: String, trim: true, default: "general" },
     description: { type: String, trim: true, default: "" },
 
-    ingredients: { type: [IngredientSchema], default: [] },
+    ingredients: { type: [String], default: [] },
     steps: { type: [String], default: [] },
     tags: { type: [String], default: [] },
 
@@ -25,7 +25,9 @@ const RecipeSchema = new mongoose.Schema(
     servings: { type: Number, min: 1, default: 1 },
 
     image: { type: String, trim: true, default: "" },
+videoUrl: { type: String, trim: true, default: "" },
 
+calories: { type: Number, default: 0 },
     source: {
       type: String,
       enum: ["local", "mealdb"],

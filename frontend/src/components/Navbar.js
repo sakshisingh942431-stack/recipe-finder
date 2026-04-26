@@ -1,126 +1,111 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import {
+  FaUserCircle,
+  FaBars,
+  FaTimes,
+  FaSearch,
+  FaHeart
+} from "react-icons/fa";
 
-const linkStyle = {
-  fontSize: "18px",
-  fontWeight: 600,
-  color: "orange",
-  textDecoration: "none",
-};
+import logo from "../assets/logo.png";
+import "./Navbar.css";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
+
   const handleLogout = () => {
-    setOpen(false);
     logout();
+    setOpen(false);
     navigate("/");
   };
 
   return (
-    <nav
-      style={{
-        padding: "16px 24px",
-        borderBottom: "1px solid #eee",
-        marginBottom: 20,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      {/* LEFT */}
-      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-  
-        <h2 style={{ color:"orange", margin: 0 }}>🍽️ Recipe Finder</h2>
+    <nav className="navbar">
 
-        <Link to="/" style={linkStyle}>Home</Link>
-        <Link to="/search" style={linkStyle}>Search</Link>
-        <Link to="/tips" style={linkStyle}>Tips</Link>
-        <Link to="/contact" style={linkStyle}>Contact</Link>
+      {/* LEFT */}
+      <div className="logo-box" onClick={() => navigate("/")}>
+        <img src={logo} alt="logo" />
+        <span>NutriNest</span>
+      </div>
+
+      {/* CENTER */}
+      <div className={mobile ? "nav-links active" : "nav-links"}>
+        <Link to="/">Home</Link>
+        <Link to="/search">Recipes</Link>
+        <Link to="/shorts">Shorts</Link>
+        <Link to="/community">Community</Link>
+        <Link to="/contact">Contact</Link>
+      </div>
+
+      {/* SEARCH */}
+      <div className="search-box">
+        <FaSearch />
+        <input type="text" placeholder="Search..." />
       </div>
 
       {/* RIGHT */}
-      <div style={{ position: "relative" }}>
-        {!user && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <Link to="/signup" style={linkStyle}>Signup</Link>
-            <Link to="/login" style={linkStyle}>Login</Link>
-          </div>
-        )}
+      <div className="right-box">
 
-        {user && (
-          <>
-            {/* PROFILE ICON */}
+        {!user ? (
+          <div className="auth-btns">
+            <Link to="/login">Login</Link>
+            <Link to="/signup" className="signup-btn">
+              Signup
+            </Link>
+          </div>
+        ) : (
+          <div className="profile-area">
+
             <div
+              className="profile-icon"
               onClick={() => setOpen(!open)}
-              style={{
-                cursor: "pointer",
-                fontSize: 22,
-                userSelect: "none",
-                
-              }}
             >
-              👤
+              <FaUserCircle />
             </div>
 
-            {/* DROPDOWN */}
             {open && (
-              <div
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: "120%",
-                  background: "#fff",
-                  border: "1px solid #ddd",
-                  borderRadius: 8,
-                  width: 160,
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
-                  overflow: "hidden",
-                  zIndex: 100,
-                }}
-              >
-                <div
-                  style={menuItem}
-                  onClick={() => {
-                    setOpen(false);
-                    navigate("/profile");
-                  }}
-                >
+              <div className="dropdown">
+
+                <div onClick={() => navigate("/profile")}>
                   👤 Profile
                 </div>
 
-                <div
-                  style={menuItem}
-                  onClick={() => {
-                    setOpen(false);
-                    navigate("/favorites");
-                  }}
-                >
-                  ❤️ Favorites
+                <div onClick={() => navigate("/favorites")}>
+                  <FaHeart /> Favorites
+                </div>
+
+                <div onClick={() => navigate("/dashboard")}>
+                  📊 Dashboard
                 </div>
 
                 <div
-                  style={{ ...menuItem, color: "crimson" }}
+                  className="logout"
                   onClick={handleLogout}
                 >
                   🚪 Logout
                 </div>
+
               </div>
             )}
-          </>
+          </div>
         )}
+
+        {/* MOBILE ICON */}
+        <div
+          className="menu-toggle"
+          onClick={() => setMobile(!mobile)}
+        >
+          {mobile ? <FaTimes /> : <FaBars />}
+        </div>
+
       </div>
+
     </nav>
   );
 }
-
-const menuItem = {
-  padding: "12px 14px",
-  cursor: "pointer",
-  fontSize: 15,
-  fontWeight: 500,
-  borderBottom: "1px solid #f0f0f0",
-};

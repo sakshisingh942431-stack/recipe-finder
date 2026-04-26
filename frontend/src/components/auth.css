@@ -134,3 +134,12 @@
   .auth-card { width: 92%; padding: 22px; }
   .auth-title { font-size: 22px; }
 }
+.auth-success{
+  background:#e8fff0;
+  color:green;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-size:14px;
+  text-align:center;
+}
