@@ -1,124 +1,122 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import React from "react";
 import "./Profile.css";
 
-const Profile = () => {
-  const { user } = useContext(AuthContext);
-
-  const [messages, setMessages] = useState([]);
-  const [tips, setTips] = useState([]);
-
-  const [loadingMessages, setLoadingMessages] = useState(true);
-  const [loadingTips, setLoadingTips] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoadingMessages(false);
-      setLoadingTips(false);
-      return;
-    }
-
-    /* ================= FETCH MESSAGES ================= */
-    const fetchMessages = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/contact/my", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-        setMessages(data);
-      } catch (err) {
-        console.error("Failed to load messages", err);
-      } finally {
-        setLoadingMessages(false);
-      }
-    };
-
-    /* ================= FETCH TIPS ================= */
-    const fetchTips = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/tips/my", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-        setTips(data);
-      } catch (err) {
-        console.error("Failed to load tips", err);
-      } finally {
-        setLoadingTips(false);
-      }
-    };
-
-    fetchMessages();
-    fetchTips();
-  }, []);
-
-  if (!user) {
-    return <p className="profile-empty">Not logged in</p>;
-  }
+export default function ProfilePage() {
+  const savedRecipes = [
+    {
+      name: "Oats Bowl",
+      image:
+        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500",
+    },
+    {
+      name: "Paneer Salad",
+      image:
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500",
+    },
+    {
+      name: "Smoothie",
+      image:
+               "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4",
+      
+    },
+    {
+      name: "Protein Sandwich",
+      image:
+        "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500",
+    },
+  ];
 
   return (
     <div className="profile-page">
-      <h2 className="profile-title">My Profile</h2>
+      {/* Hero Section */}
+      <div className="hero-card">
+        <img
+          src="https://i.pravatar.cc/150?img=32"
+          alt="profile"
+          className="profile-img"
+        />
 
-      {/* ================= USER INFO ================= */}
-      <div className="profile-card">
-        <p>
-          <span>Name:</span> {user.name}
-        </p>
-        <p>
-          <span>Email:</span> {user.email}
-        </p>
+        <h2>Sakshi Singh</h2>
+        <p className="tagline">Healthy Food Explorer</p>
+
+        <div className="hero-actions">
+          <button>Edit Profile</button>
+          <span className="badge">Premium</span>
+        </div>
       </div>
 
-      {/* ================= MESSAGES ================= */}
-      <h3 className="profile-subtitle">My Messages</h3>
+      {/* Stats Row */}
+      <div className="stats-row">
+        <div className="stat-card">
+          <h3>24</h3>
+          <p>Saved Recipes ❤️</p>
+        </div>
 
-      {loadingMessages ? (
-        <p className="profile-empty">Loading messages...</p>
-      ) : messages.length === 0 ? (
-        <p className="profile-empty">No messages sent yet.</p>
-      ) : (
-        <div className="message-list">
-          {messages.map((msg) => (
-            <div key={msg._id} className="message-card">
-              <p className="message-text">{msg.message}</p>
-              <small className="message-date">
-                {new Date(msg.createdAt).toLocaleString()}
-              </small>
+        <div className="stat-card">
+          <h3>18</h3>
+          <p>Recipes Tried 🍽️</p>
+        </div>
+
+        <div className="stat-card">
+          <h3>1450</h3>
+          <p>Calories Tracked 🔥</p>
+        </div>
+
+        <div className="stat-card">
+          <h3>320</h3>
+          <p>Followers 👥</p>
+        </div>
+      </div>
+
+      {/* Saved Recipes */}
+      <section>
+        <h2 className="section-title">Saved Recipes</h2>
+
+        <div className="recipe-grid">
+          {savedRecipes.map((item, index) => (
+            <div className="recipe-card" key={index}>
+              <img src={item.image} alt={item.name} />
+              <h4>{item.name}</h4>
+              <button>Quick Open</button>
             </div>
           ))}
         </div>
-      )}
+      </section>
 
-      {/* ================= TIPS ================= */}
-      <h3 className="profile-subtitle">My Tips</h3>
+      {/* Preferences */}
+      <section>
+        <h2 className="section-title">Dietary Preferences</h2>
 
-      {loadingTips ? (
-        <p className="profile-empty">Loading tips...</p>
-      ) : tips.length === 0 ? (
-        <p className="profile-empty">No tips added yet.</p>
-      ) : (
-        <div className="tip-list">
-          {tips.map((tip) => (
-            <div key={tip._id} className="tip-card">
-              <h4 className="tip-title">{tip.title}</h4>
-              <p className="tip-text">{tip.description}</p>
-              <small className="tip-date">
-                {new Date(tip.createdAt).toLocaleString()}
-              </small>
-            </div>
-          ))}
+        <div className="chips">
+          <span>Vegetarian</span>
+          <span>High Protein</span>
+          <span>Low Carb</span>
+          <span>Gluten Free</span>
         </div>
-      )}
+      </section>
+
+      {/* Health Tracker */}
+      <section>
+        <h2 className="section-title">Health Tracker</h2>
+
+        <div className="tracker-grid">
+          <div className="tracker-card">Daily Calories: 1800</div>
+          <div className="tracker-card">Water Intake: 2.5L</div>
+          <div className="tracker-card">BMI: 22.1</div>
+          <div className="tracker-card">Goal Progress: 78%</div>
+        </div>
+      </section>
+
+      {/* Recent Activity */}
+      <section>
+        <h2 className="section-title">Recent Activity</h2>
+
+        <div className="activity-box">
+          <p>✅ Saved "Avocado Toast"</p>
+          <p>👀 Viewed "Weight Loss Smoothie"</p>
+          <p>⭐ Rated 5⭐ Salad Bowl</p>
+        </div>
+      </section>
     </div>
   );
-};
-
-export default Profile;
+}

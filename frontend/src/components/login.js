@@ -15,7 +15,6 @@ export default function Login() {
   const params = new URLSearchParams(location.search);
   const next = params.get("next") || "/dashboard";
 
-  // Blank fields always
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -80,70 +79,110 @@ export default function Login() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">Log in</h2>
+      <div className="login-layout">
 
-        {info && <div className="auth-info">{info}</div>}
-        {error && <div className="auth-error">{error}</div>}
+        {/* LEFT SIDE */}
+        <div className="login-left">
+          <div className="left-content">
+            <h1>NutriNest</h1>
+            <h2>Eat Smart. Live Better.</h2>
+            <p>
+              Save recipes, track calories, explore
+              healthy meals and manage your lifestyle.
+            </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="auth-form"
-          autoComplete="off"
-        >
-          <input
-            className="auth-input"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="off"
-            name="newEmailField"
-            required
-          />
+            <div className="feature-list">
+              <span>✔ 1200+ Recipes</span>
+              <span>✔ Smart Dashboard</span>
+              <span>✔ Health Tracking</span>
+            </div>
+          </div>
+        </div>
 
-          <input
-            className="auth-input"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            name="newPasswordField"
-            required
-          />
+        {/* RIGHT SIDE */}
+        <div className="login-right">
+          <div className="auth-card">
 
-          <button
-            type="submit"
-            className="btn-yellow auth-submit"
-          >
-            Log in
-          </button>
+            <h2 className="auth-title">Welcome Back 👋</h2>
+            <p className="auth-subtitle">
+              Login to continue your healthy journey
+            </p>
 
-          <p className="auth-meta">
-            <Link to="/forgot-password">
-              Forgot Password?
-            </Link>
-          </p>
-<p className="auth-meta">
-  <Link to="/admin-login">
-    Admin Login
-  </Link>
-</p>
-          <p className="auth-meta">
-            Don't have an account?{" "}
-            <Link to={`/signup?next=${encodeURIComponent(next)}`}>
-              Sign up
-            </Link>
-          </p>
+            {info && <div className="auth-info">{info}</div>}
+            {error && <div className="auth-error">{error}</div>}
 
-          <Link
-            to="/"
-            className="btn-yellow btn-back"
-          >
-            ← Back to Home
-          </Link>
-        </form>
+            <form
+              onSubmit={handleSubmit}
+              className="auth-form"
+              autoComplete="off"
+            >
+              <input
+                className="auth-input"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                autoComplete="off"
+                name="newEmailField"
+                required
+              />
+
+              <input
+                className="auth-input"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                autoComplete="new-password"
+                name="newPasswordField"
+                required
+              />
+
+              <button
+                type="submit"
+                className="btn-yellow auth-submit"
+              >
+                Log in
+              </button>
+
+              <p className="auth-meta">
+                <Link to="/forgot-password">
+                  Forgot Password?
+                </Link>
+              </p>
+
+              <p className="auth-meta">
+                <Link to="/admin-login">
+                  Admin Login
+                </Link>
+              </p>
+
+              <p className="auth-meta">
+                Don't have an account?{" "}
+                <Link
+                  to={`/signup?next=${encodeURIComponent(
+                    next
+                  )}`}
+                >
+                  Sign up
+                </Link>
+              </p>
+
+              <Link
+                to="/"
+                className="btn-yellow btn-back"
+              >
+                ← Back to Home
+              </Link>
+            </form>
+
+          </div>
+        </div>
+
       </div>
     </div>
   );

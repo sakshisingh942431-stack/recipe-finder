@@ -20,14 +20,14 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
- 
+    setStatus("Sending your message...");
+
     try {
       const res = await fetch("http://localhost:5000/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
       });
@@ -36,7 +36,11 @@ const Contact = () => {
 
       if (res.ok) {
         setStatus("✅ Message sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
       } else {
         setStatus(data.message || "❌ Something went wrong");
       }
@@ -46,17 +50,51 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-container">
-      <div className="overlay">
+    <div className="contact-page">
+      <div className="contact-wrapper">
+        {/* Left Info Section */}
+        <div className="contact-info">
+          <span className="badge">Get In Touch</span>
+
+          <h1>
+            Let’s Build A <span>Healthier World</span> 🌿
+          </h1>
+
+          <p>
+            Have recipe ideas, feature suggestions, collaborations or feedback?
+            We'd love to hear from you.
+          </p>
+
+          <div className="info-box">
+            <h4>📧 Email</h4>
+            <p>support@nutrinest.com</p>
+          </div>
+
+          <div className="info-box">
+            <h4>📍 Location</h4>
+            <p>India</p>
+          </div>
+
+          <div className="info-box">
+            <h4>⏰ Support Hours</h4>
+            <p>Mon - Sat | 9:00 AM - 6:00 PM</p>
+          </div>
+
+          <Link to="/" className="back-home">
+            ← Back to Home
+          </Link>
+        </div>
+
+        {/* Right Form Section */}
         <div className="contact-card">
-          <h2>Contact Us 📞</h2>
-          <p>We’d love to hear your feedback or recipe suggestions!</p>
+          <h2>Send Us Message 💬</h2>
+          <p>We usually reply quickly. Good food can't wait.</p>
 
           <form className="contact-form" onSubmit={handleSubmit}>
             <input
               type="text"
               name="name"
-              placeholder="Your Name"
+              placeholder="Enter your full name"
               value={formData.name}
               onChange={handleChange}
               required
@@ -65,7 +103,7 @@ const Contact = () => {
             <input
               type="email"
               name="email"
-              placeholder="Your Email"
+              placeholder="Enter your email address"
               value={formData.email}
               onChange={handleChange}
               required
@@ -73,8 +111,8 @@ const Contact = () => {
 
             <textarea
               name="message"
-              placeholder="Your Message"
-              rows="4"
+              rows="6"
+              placeholder="Write your message here..."
               value={formData.message}
               onChange={handleChange}
               required
@@ -84,15 +122,6 @@ const Contact = () => {
           </form>
 
           {status && <p className="form-status">{status}</p>}
-
-          <p className="support">
-            Or reach us directly at{" "}
-            <a href="mailto:support@recipefinder.com">
-              support@recipefinder.com
-            </a>
-          </p>
-
-          <Link to="/" className="home-btn">← Back to Home</Link>
         </div>
       </div>
     </div>
