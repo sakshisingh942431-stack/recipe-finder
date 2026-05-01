@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthContext";
+import { normalizeRecipe } from "../utils/normalizeRecipe"; // ✅ added
 
 const API_BASE =
   "http://localhost:5000/api/recipes";
@@ -117,10 +118,13 @@ export default function RecipeDetail() {
 
         try {
 
+          // ✅ demo normalize
           if (demoRecipes[id]) {
             setRecipe(
-              demoRecipes[id]
+              normalizeRecipe(demoRecipes[id])
             );
+            console.log("RAW DATA:", data);
+console.log("FINAL RECIPE:", normalizeRecipe(data));
             setLoading(false);
             return;
           }
@@ -133,7 +137,10 @@ export default function RecipeDetail() {
           const data =
             await res.json();
 
-          setRecipe(data);
+          // ✅ MAIN FIX
+          setRecipe(
+            normalizeRecipe(data)
+          );
 
         } catch {
           setRecipe(null);
@@ -159,7 +166,7 @@ export default function RecipeDetail() {
     if (recipe) {
       setIsFav(
         fav.includes(
-          recipe._id
+          recipe.id || recipe._id
         )
       );
     }
@@ -185,25 +192,23 @@ export default function RecipeDetail() {
           )
         ) || [];
 
+      const recipeId =
+        recipe.id || recipe._id;
+
       if (
-        fav.includes(
-          recipe._id
-        )
+        fav.includes(recipeId)
       ) {
 
         fav = fav.filter(
           item =>
-            item !==
-            recipe._id
+            item !== recipeId
         );
 
         setIsFav(false);
 
       } else {
 
-        fav.push(
-          recipe._id
-        );
+        fav.push(recipeId);
 
         setIsFav(true);
 
@@ -217,353 +222,179 @@ export default function RecipeDetail() {
 
   if (loading)
     return (
-      <h2
-        style={{
-          textAlign:
-            "center",
-          marginTop:
-            "50px"
-        }}
-      >
+      <h2 style={{
+        textAlign:"center",
+        marginTop:"50px"
+      }}>
         Loading...
       </h2>
     );
 
   if (!recipe)
     return (
-      <h2
-        style={{
-          textAlign:
-            "center",
-          marginTop:
-            "50px"
-        }}
-      >
+      <h2 style={{
+        textAlign:"center",
+        marginTop:"50px"
+      }}>
         Recipe Not Found
       </h2>
     );
 
   return (
 
-    <div
-      style={{
+    <div style={{
+      minHeight:"100vh",
+      padding:"35px 20px",
+      background:`linear-gradient(135deg,#ecfdf5,#d1fae5,#fef3c7)`
+    }}>
 
-        minHeight:
-          "100vh",
+      <div style={{
+        maxWidth:"1050px",
+        margin:"auto",
+        padding:"35px",
+        borderRadius:"30px",
+        background:"rgba(255,255,255,.82)",
+        backdropFilter:"blur(10px)",
+        boxShadow:"0 20px 45px rgba(0,0,0,.08)"
+      }}>
 
-        padding:
-          "35px 20px",
-
-        background:
-`
-radial-gradient(circle at 10% 20%, rgba(34,197,94,0.10) 0 45px, transparent 46px),
-radial-gradient(circle at 25% 70%, rgba(245,158,11,0.10) 0 38px, transparent 39px),
-radial-gradient(circle at 45% 25%, rgba(34,197,94,0.08) 0 42px, transparent 43px),
-radial-gradient(circle at 65% 80%, rgba(245,158,11,0.10) 0 36px, transparent 37px),
-radial-gradient(circle at 82% 30%, rgba(34,197,94,0.08) 0 40px, transparent 41px),
-linear-gradient(135deg,#ecfdf5,#d1fae5,#fef3c7)
-`
-
-      }}
-    >
-
-      <div
-        style={{
-
-          maxWidth:
-            "1050px",
-
-          margin:
-            "auto",
-
-          padding:
-            "35px",
-
-          borderRadius:
-            "30px",
-
-          background:
-            "rgba(255,255,255,.82)",
-
-          backdropFilter:
-            "blur(10px)",
-
-          boxShadow:
-            "0 20px 45px rgba(0,0,0,.08)"
-
-        }}
-      >
-
-        <Link
-          to="/favorites"
-          style={{
-            textDecoration:
-              "none",
-            color:
-              "#16a34a",
-            fontWeight:
-              "700",
-            fontSize:
-              "18px"
-          }}
-        >
+        <Link to="/favorites" style={{
+          textDecoration:"none",
+          color:"#16a34a",
+          fontWeight:"700",
+          fontSize:"18px"
+        }}>
           ⬅ Back
         </Link>
 
-        <div
-          style={{
+        <div style={{
+          display:"flex",
+          justifyContent:"space-between",
+          alignItems:"center",
+          marginTop:"18px",
+          flexWrap:"wrap",
+          gap:"15px"
+        }}>
 
-            display:
-              "flex",
-
-            justifyContent:
-              "space-between",
-
-            alignItems:
-              "center",
-
-            marginTop:
-              "18px",
-
-            flexWrap:
-              "wrap",
-
-            gap: "15px"
-
-          }}
-        >
-
-          <h1
-            style={{
-              fontSize:
-                "48px",
-              margin: 0,
-              color:
-                "#0f172a"
-            }}
-          >
-            {recipe.title}
+          <h1 style={{
+            fontSize:"48px",
+            margin:0,
+            color:"#0f172a"
+          }}>
+            {recipe.name}
           </h1>
 
-          <button
-            onClick={
-              handleFavorite
-            }
-            style={{
-
-              border:
-                "none",
-
-              background:
-                "#fff",
-
-              width:
-                "55px",
-
-              height:
-                "55px",
-
-              borderRadius:
-                "50%",
-
-              fontSize:
-                "24px",
-
-              cursor:
-                "pointer",
-
-              boxShadow:
-                "0 10px 20px rgba(0,0,0,.08)"
-
-            }}
-          >
-            {isFav
-              ? "❤️"
-              : "🤍"}
+          <button onClick={handleFavorite} style={{
+            border:"none",
+            background:"#fff",
+            width:"55px",
+            height:"55px",
+            borderRadius:"50%",
+            fontSize:"24px",
+            cursor:"pointer",
+            boxShadow:"0 10px 20px rgba(0,0,0,.08)"
+          }}>
+            {isFav ? "❤️" : "🤍"}
           </button>
 
         </div>
 
-        <p
-          style={{
-            color:
-              "#475569",
-            marginTop:
-              "10px",
-            fontSize:
-              "18px"
-          }}
-        >
-          {recipe.area} •{" "}
-          {recipe.category}
+        <p style={{
+          color:"#475569",
+          marginTop:"10px",
+          fontSize:"18px"
+        }}>
+          {recipe.area} • {recipe.category}
         </p>
 
         <img
-          src={
-            recipe.image
-          }
-          alt={
-            recipe.title
-          }
-          style={{
+  src={recipe.image || "https://picsum.photos/500"}
+  alt={recipe.name}
+  onError={(e) => {
+    e.target.src = "https://picsum.photos/500";
+  }}
+  style={{
+    width: "100%",
+    height: "300px",
+    objectFit: "cover"
+  }}
+/>
 
-            width:
-              "100%",
+        {/* 🎥 VIDEO */}
+        {recipe.video && (
+          <iframe
+            width="100%"
+            height="300"
+            style={{marginTop:"20px", borderRadius:"20px"}}
+            src={recipe.video.replace("watch?v=","embed/")}
+            title="Recipe Video"
+            allowFullScreen
+          ></iframe>
+        )}
 
-            height:
-              "460px",
-
-            objectFit:
-              "cover",
-
-            borderRadius:
-              "24px",
-
-            marginTop:
-              "25px",
-
-            boxShadow:
-              "0 15px 30px rgba(0,0,0,.10)"
-
-          }}
-        />
-
-        <div
-          style={{
-
-            marginTop:
-              "30px",
-
-            display:
-              "grid",
-
-            gridTemplateColumns:
-              "1fr 1fr",
-
-            gap:
-              "25px"
-
-          }}
-        >
+        <div style={{
+          marginTop:"30px",
+          display:"grid",
+          gridTemplateColumns:"1fr 1fr",
+          gap:"25px"
+        }}>
 
           {/* Ingredients */}
-
-          <div
-            style={{
-
-              background:
-                "#ffffffdd",
-
-              padding:
-                "26px",
-
-              borderRadius:
-                "24px",
-
-              boxShadow:
-                "0 8px 20px rgba(0,0,0,.05)"
-
-            }}
-          >
-
-            <h2
-              style={{
-                color:
-                  "#16a34a",
-                marginBottom:
-                  "18px",
-                fontSize:
-                  "34px"
-              }}
-            >
+          <div style={{
+            background:"#ffffffdd",
+            padding:"26px",
+            borderRadius:"24px",
+            boxShadow:"0 8px 20px rgba(0,0,0,.05)"
+          }}>
+            <h2 style={{
+              color:"#16a34a",
+              marginBottom:"18px",
+              fontSize:"34px"
+            }}>
               Ingredients
             </h2>
 
-            <ul
-              style={{
-                paddingLeft:
-                  "22px",
-                lineHeight:
-                  "2",
-                fontSize:
-                  "18px"
-              }}
-            >
-              {recipe.ingredients.map(
-                (
-                  item,
-                  i
-                ) => (
-                  <li key={i}>
-                    {item}
-                  </li>
-                )
-              )}
+            <ul style={{
+              paddingLeft:"22px",
+              lineHeight:"2",
+              fontSize:"18px"
+            }}>
+              {recipe?.ingredients?.map((item,i)=>(
+                <li key={i}>{item}</li>
+              ))}
             </ul>
-
           </div>
 
           {/* Steps */}
-
-          <div
-            style={{
-
-              background:
-                "#ffffffdd",
-
-              padding:
-                "26px",
-
-              borderRadius:
-                "24px",
-
-              boxShadow:
-                "0 8px 20px rgba(0,0,0,.05)"
-
-            }}
-          >
-
-            <h2
-              style={{
-                color:
-                  "#f59e0b",
-                marginBottom:
-                  "18px",
-                fontSize:
-                  "34px"
-              }}
-            >
+          <div style={{
+            background:"#ffffffdd",
+            padding:"26px",
+            borderRadius:"24px",
+            boxShadow:"0 8px 20px rgba(0,0,0,.05)"
+          }}>
+            <h2 style={{
+              color:"#f59e0b",
+              marginBottom:"18px",
+              fontSize:"34px"
+            }}>
               Steps
             </h2>
 
-            <ol
-              style={{
-                paddingLeft:
-                  "22px",
-                lineHeight:
-                  "2",
-                fontSize:
-                  "18px"
-              }}
-            >
-              {recipe.steps.map(
-                (
-                  step,
-                  i
-                ) => (
-                  <li key={i}>
-                    {step}
-                  </li>
-                )
-              )}
+            <ol style={{
+              paddingLeft:"22px",
+              lineHeight:"2",
+              fontSize:"18px"
+            }}>
+              {recipe?.steps?.map((step,i)=>(
+                <li key={i}>{step}</li>
+              ))}
             </ol>
-
           </div>
 
         </div>
 
       </div>
-
     </div>
   );
+  
 }

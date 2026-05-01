@@ -1,4 +1,3 @@
-// backend/routes/recipeRoutes.js (CommonJS)
 const express = require("express");
 const Recipe = require("../models/RecipeModel");
 const { importMealDb } = require("../controllers/mealdbController");
@@ -18,12 +17,46 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/recipes
+// POST /api/recipes  ✅ FIXED
 router.post("/", async (req, res) => {
   try {
     const data = req.body || {};
-    const recipe = new Recipe(data);
+
+    const recipe = new Recipe({
+      userId: data.userId,
+      title: data.title,
+      category: data.category,
+      description: data.description,
+
+      // 🔥 FIX: हमेशा array बनाओ
+      ingredients: Array.isArray(data.ingredients)
+        ? data.ingredients
+        : data.ingredients
+        ? data.ingredients.split(",").map((i) => i.trim())
+        : [],
+
+      steps: Array.isArray(data.steps)
+        ? data.steps
+        : data.steps
+        ? data.steps.split(".").map((s) => s.trim())
+        : [],
+
+      tags: Array.isArray(data.tags) ? data.tags : [],
+
+      prepTime: data.prepTime || 0,
+      cookTime: data.cookTime || 0,
+      servings: data.servings || 1,
+
+      image: data.image || "",
+      videoUrl: data.videoUrl || "",
+
+      calories: data.calories || 0,
+      source: data.source || "local",
+      mealDbId: data.mealDbId || undefined,
+    });
+
     await recipe.save();
+
     res.status(201).json(recipe);
   } catch (err) {
     console.error("POST /api/recipes error:", err);
@@ -84,9 +117,11 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const recipe = await Recipe.findById(id);
+
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
     }
+
     res.json(recipe);
   } catch (err) {
     console.error("GET /api/recipes/:id error:", err);

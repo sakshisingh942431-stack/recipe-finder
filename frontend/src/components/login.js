@@ -1,5 +1,3 @@
-// frontend/src/components/login.js
-
 import React, { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./auth.css";
@@ -25,7 +23,7 @@ export default function Login() {
     e.preventDefault();
 
     setError("");
-    setInfo("");
+    setInfo("Logging in...");
 
     try {
       const response = await API.post("/api/users/login", {
@@ -49,7 +47,7 @@ export default function Login() {
         id: userId,
         name: userName,
         email: userEmail,
-        role: role,
+        role,
       });
 
       localStorage.setItem("token", token);
@@ -60,19 +58,26 @@ export default function Login() {
           id: userId,
           name: userName,
           email: userEmail,
-          role: role,
+          role,
         })
       );
 
-      if (role === "admin") {
-        navigate("/admin", { replace: true });
-      } else {
-        navigate(next, { replace: true });
-      }
+      setInfo("Login successful!");
+
+      setTimeout(() => {
+        if (role === "admin") {
+          navigate("/admin", { replace: true });
+        } else {
+          navigate(next, { replace: true });
+        }
+      }, 800);
+
     } catch (err) {
+      setInfo("");
+
       setError(
         err.response?.data?.message ||
-          "Invalid email or password"
+        "Invalid email or password"
       );
     }
   };
@@ -85,7 +90,9 @@ export default function Login() {
         <div className="login-left">
           <div className="left-content">
             <h1>NutriNest</h1>
+
             <h2>Eat Smart. Live Better.</h2>
+
             <p>
               Save recipes, track calories, explore
               healthy meals and manage your lifestyle.
@@ -104,6 +111,7 @@ export default function Login() {
           <div className="auth-card">
 
             <h2 className="auth-title">Welcome Back 👋</h2>
+
             <p className="auth-subtitle">
               Login to continue your healthy journey
             </p>
@@ -121,9 +129,7 @@ export default function Login() {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="off"
                 name="newEmailField"
                 required
@@ -134,9 +140,7 @@ export default function Login() {
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) =>
-                  setPassword(e.target.value)
-                }
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
                 name="newPasswordField"
                 required
@@ -164,9 +168,7 @@ export default function Login() {
               <p className="auth-meta">
                 Don't have an account?{" "}
                 <Link
-                  to={`/signup?next=${encodeURIComponent(
-                    next
-                  )}`}
+                  to={`/signup?next=${encodeURIComponent(next)}`}
                 >
                   Sign up
                 </Link>
@@ -178,6 +180,7 @@ export default function Login() {
               >
                 ← Back to Home
               </Link>
+
             </form>
 
           </div>

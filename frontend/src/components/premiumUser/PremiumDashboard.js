@@ -15,84 +15,62 @@ import {
   BarChart,
   Bar,
   XAxis,
-  Tooltip
+  Tooltip,
+  Legend
 } from "recharts";
 
 import PremiumSidebar from "./PremiumSidebar";
 import "./premiumDashboard.css";
 
 export default function PremiumDashboard() {
+
   const navigate = useNavigate();
 
-  const [userName, setUserName] =
-    useState("User");
-
-  const [liked, setLiked] =
-    useState(
-      JSON.parse(
-        localStorage.getItem(
-          "favorites"
-        )
-      ) || []
-    );
+  const [userName, setUserName] = useState("User");
+  const [liked, setLiked] = useState(
+    JSON.parse(localStorage.getItem("favorites")) || []
+  );
 
   useEffect(() => {
-    const user = JSON.parse(
-      localStorage.getItem("user")
-    );
 
-    if (user?.name) {
-      setUserName(user.name);
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      navigate("/login");
+      return;
     }
-  }, []);
+
+    if (!user.isPremium) {
+      navigate("/premium-upgrade");
+      return;
+    }
+
+    const profile = JSON.parse(localStorage.getItem("profileData"));
+
+    if (profile?.name) setUserName(profile.name);
+    else if (user?.name) setUserName(user.name);
+
+  }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem(
-      "token"
-    );
-    localStorage.removeItem(
-      "user"
-    );
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
   const handleLike = (id) => {
-    let updated = [];
-
-    if (liked.includes(id)) {
-      updated =
-        liked.filter(
-          (item) =>
-            item !== id
-        );
-    } else {
-      updated = [
-        ...liked,
-        id
-      ];
-    }
+    const updated = liked.includes(id)
+      ? liked.filter((item) => item !== id)
+      : [...liked, id];
 
     setLiked(updated);
-
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify(updated)
-    );
+    localStorage.setItem("favorites", JSON.stringify(updated));
   };
 
   const reportData = [
-    {
-      name: "Protein",
-      value: 75
-    },
-    {
-      name: "Carbs",
-      value: 55
-    },
-    {
-      name: "Fat",
-      value: 65
-    }
+    { name: "Protein", value: 38 },
+    { name: "Carbs", value: 28 },
+    { name: "Fat", value: 33 }
   ];
 
   const weekData = [
@@ -105,112 +83,59 @@ export default function PremiumDashboard() {
     { day: "Sun", v: 5 }
   ];
 
-  const colors = [
-    "#22c55e",
-    "#f59e0b",
-    "#3b82f6"
-  ];
+  const colors = ["#22c55e", "#f59e0b", "#3b82f6"];
 
   const recipes = [
     {
       id: "111",
-      name:
-        "High Protein Bowl",
+      name: "High Protein Bowl",
       cal: "320 Cal",
       time: "20 Min",
-      image:
-        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-      ingredients: [
-        "🍗 Chicken",
-        "🍚 Rice",
-        "🥦 Broccoli",
-        "🥚 Egg"
-      ]
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+      ingredients: ["🍗 Chicken", "🍚 Rice", "🥦 Broccoli", "🥚 Egg"]
     },
     {
       id: "222",
-      name:
-        "Weight Loss Salad",
+      name: "Weight Loss Salad",
       cal: "210 Cal",
       time: "10 Min",
-      image:
-        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-      ingredients: [
-        "🥬 Lettuce",
-        "🍅 Tomato",
-        "🥑 Avocado",
-        "🫘 Beans"
-      ]
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+      ingredients: ["🥬 Lettuce", "🍅 Tomato", "🥑 Avocado", "🫘 Beans"]
     },
     {
       id: "333",
-      name:
-        "Fruit Smoothie",
+      name: "Fruit Smoothie",
       cal: "180 Cal",
       time: "5 Min",
-      image:
-        "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4",
-      ingredients: [
-        "🍌 Banana",
-        "🥛 Milk",
-        "🍯 Honey",
-        "🥣 Oats"
-      ]
+      image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4",
+      ingredients: ["🍌 Banana", "🥛 Milk", "🍯 Honey", "🥣 Oats"]
     }
   ];
 
   return (
     <div className="dashboard-container">
 
-      <PremiumSidebar
-        onLogout={
-          handleLogout
-        }
-      />
-      
+      <PremiumSidebar onLogout={handleLogout} />
 
       <div className="main-content">
 
         {/* TOPBAR */}
         <div className="topbar">
-
-          <input
-            type="text"
-            placeholder="Search healthy recipes..."
-          />
+          <input type="text" placeholder="Search healthy recipes..." />
 
           <div className="top-actions">
-
-            <div className="icon-ball">
-              <FaBell />
-            </div>
-
-            <div className="profile">
-              👤 {userName}
-            </div>
-
+            <div className="icon-ball"><FaBell /></div>
+            <div className="profile">👤 {userName}</div>
           </div>
-
         </div>
 
         {/* HERO */}
         <div className="hero-card">
-
           <div className="hero-left">
-            <h1>
-              Welcome to NutriNest
-            </h1>
+            <h1>Welcome to NutriNest</h1>
+            <p>Discover healthy meals, track your fitness daily.</p>
 
-            <p>
-              Discover healthy
-              meals, track your
-              fitness and stay
-              consistent daily.
-            </p>
-
-            <button>
-              Add Recipe
-            </button>
+            <button>🌟 Premium Active</button>
           </div>
 
           <div className="hero-right">
@@ -219,238 +144,107 @@ export default function PremiumDashboard() {
               alt="food"
             />
           </div>
-
         </div>
 
         {/* STATS */}
         <div className="stats-grid">
-
-          <div className="card">
-            🔥 Calories
-            <h2>1800</h2>
-          </div>
-
-          <div className="card">
-            💧 Water
-            <h2>4 / 8</h2>
-          </div>
-
-          <div className="card">
-            ⚖ BMI
-            <h2>22.4</h2>
-          </div>
-
-          <div className="card">
-            ❤️ Favorites
-            <h2>
-              {
-                liked.length
-              }
-            </h2>
-          </div>
-
+          <div className="card">🔥 Calories <h2>1800</h2></div>
+          <div className="card">💧 Water <h2>4 / 8</h2></div>
+          <div className="card">⚖ BMI <h2>22.4</h2></div>
+          <div className="card">❤️ Favorites <h2>{liked.length}</h2></div>
         </div>
 
         {/* CHARTS */}
         <div className="chart-grid">
 
           <div className="chart-card">
-            <h3>
-              Weekly Report
-            </h3>
-
-            <ResponsiveContainer
-              width="100%"
-              height={220}
-            >
-              <BarChart
-                data={
-                  weekData
-                }
-              >
-                <XAxis
-                  dataKey="day"
-                />
+            <h3>Weekly Report</h3>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={weekData}>
+                <XAxis dataKey="day" />
                 <Tooltip />
-                <Bar dataKey="v" />
+                <Bar dataKey="v" fill="#22c55e" />
               </BarChart>
             </ResponsiveContainer>
-
           </div>
-<div className="chart-card">
 
-  <h3>Nutrition Goal</h3>
-
-  <ResponsiveContainer
-    width="100%"
-    height={220}
-  >
-    <PieChart>
-
-      <Pie
-        data={reportData}
-        dataKey="value"
-        nameKey="name"
-        outerRadius={80}
-        label={({ name, value }) =>
-          `${name} ${value}g`
-        }
-      >
-        {reportData.map((entry, index) => (
-          <Cell
-            key={index}
-            fill={colors[index]}
-          />
-        ))}
-      </Pie>
-
-    </PieChart>
-  </ResponsiveContainer>
-
-  <div className="chart-legend">
-
-    <span>
-      <i className="dot green"></i>
-      Protein
-    </span>
-
-    <span>
-      <i className="dot orange"></i>
-      Carbs
-    </span>
-
-    <span>
-      <i className="dot blue"></i>
-      Fat
-    </span>
-
-  </div>
-
-</div>
-      
-<div className="chart-legend">
-
-    <span>
-      <i className="dot green"></i>
-      Protein
-    </span>
-
-    <span>
-      <i className="dot orange"></i>
-      Carbs
-    </span>
-
-    <span>
-      <i className="dot blue"></i>
-      Fat
-    </span>
-
+          <div className="chart-card">
+            <h3>Nutrition Goal</h3>
+            <ResponsiveContainer width="100%" height={260}>
+              <PieChart>
+                <Pie
+                  data={reportData}
+                  dataKey="value"
+                  outerRadius={90}
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(0)}%`
+                  }
+                >
+                  {reportData.map((entry, index) => (
+                    <Cell key={index} fill={colors[index]} />
+                  ))}
+                </Pie>
+                <Legend />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
 
         </div>
 
-        {/* RECIPE CARDS */}
-        <div className="smart-recipes">
+        {/* 🔥 RECIPES ADDED (ONLY NEW PART) */}
+        <div className="recipes-section">
 
-          {recipes.map(
-            (item) => (
-              <div
-                className="smart-card"
-                key={item.id}
-              >
+          <h2 style={{ marginBottom: "20px" }}>
+            Recommended Recipes
+          </h2>
+
+          <div className="smart-recipes">
+
+            {recipes.map((item) => (
+
+              <div className="smart-card" key={item.id}>
+
                 <div
                   className="heart-icon"
-                  onClick={() =>
-                    handleLike(
-                      item.id
-                    )
-                  }
+                  onClick={() => handleLike(item.id)}
                 >
                   <FaHeart
-                    color={
-                      liked.includes(
-                        item.id
-                      )
-                        ? "red"
-                        : "#cbd5e1"
-                    }
+                    color={liked.includes(item.id) ? "red" : "#cbd5e1"}
                   />
                 </div>
 
                 <div className="top-row">
 
-                  <img
-                    src={
-                      item.image
-                    }
-                    alt=""
-                  />
+                  <img src={item.image} alt="" />
 
                   <div>
-                    <h3>
-                      {
-                        item.name
-                      }
-                    </h3>
-                    <p>
-                      {
-                        item.cal
-                      }
-                    </p>
+                    <h3>{item.name}</h3>
+                    <p>{item.cal}</p>
                   </div>
 
                 </div>
 
-                <h4>
-                  Ingredients
-                </h4>
+                <h4>Ingredients</h4>
 
                 <div className="ingredient-grid">
-
-                  {item.ingredients.map(
-                    (
-                      ing,
-                      i
-                    ) => (
-                      <span
-                        key={
-                          i
-                        }
-                      >
-                        {ing}
-                      </span>
-                    )
-                  )}
-
+                  {item.ingredients.map((ing, i) => (
+                    <span key={i}>{ing}</span>
+                  ))}
                 </div>
 
                 <div className="social-row">
 
-                  <span>
-                    ⏱️{" "}
-                    {
-                      item.time
-                    }
-                  </span>
+                  <span>⏱️ {item.time}</span>
 
                   <div className="btn-group">
 
-                    <button
-                      onClick={() =>
-                        navigate(
-                          `/recipes/${item.id}`
-                        )
-                      }
-                    >
+                    <button onClick={() => navigate(`/recipes/${item.id}`)}>
                       View Recipe
                     </button>
 
                     <button className="tutorial-btn">
                       <FaPlayCircle />
-                    </button>
-
-                    <button>
-                      <FaStar />
                     </button>
 
                     <button>
@@ -462,8 +256,10 @@ export default function PremiumDashboard() {
                 </div>
 
               </div>
-            )
-          )}
+
+            ))}
+
+          </div>
 
         </div>
 

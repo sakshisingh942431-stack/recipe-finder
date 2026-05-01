@@ -5,12 +5,34 @@ import { AuthContext } from "../context/AuthContext";
 export default function ProtectedRoute({
   children,
   adminOnly = false,
+  premiumOnly = false   // 🔥 NEW
 }) {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
-  // Login nahi hai
-  if (!user) {
+  // ⏳ loading
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  let currentUser = user;
+
+  // 🔁 fallback
+  if (!currentUser) {
+    try {
+      const storedUser = localStorage.getItem("user");
+      const token = localStorage.getItem("token");
+
+      if (storedUser && token) {
+        currentUser = JSON.parse(storedUser);
+      }
+    } catch {
+      currentUser = null;
+    }
+  }
+
+  // ❌ not logged in
+  if (!currentUser || !localStorage.getItem("token")) {
     return (
       <Navigate
         to={`/login?next=${encodeURIComponent(location.pathname)}`}
@@ -19,9 +41,14 @@ export default function ProtectedRoute({
     );
   }
 
-  // Sirf admin ke liye
-  if (adminOnly && user.role !== "admin") {
+  // 🔐 admin check
+  if (adminOnly && currentUser.role !== "admin") {
     return <Navigate to="/" replace />;
+  }
+
+  // 🔥 PREMIUM CHECK (MAIN FIX)
+  if (premiumOnly && !currentUser.isPremium) {
+    return <Navigate to="/premium-upgrade" replace />;
   }
 
   return children;

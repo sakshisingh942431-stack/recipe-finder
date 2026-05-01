@@ -43,58 +43,101 @@ export default function AdminLogin() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
+      <div className="login-layout">
 
-        <h2 className="auth-title">Admin Login</h2>
+        {/* LEFT SIDE */}
+        <div className="login-left admin-left">
+          <div className="left-content">
+            <h1>NutriNest</h1>
+            <h2>Admin Control Panel 🔐</h2>
 
-        {error && (
-          <div className="auth-error">
-            {error}
+            <p>
+              Securely manage recipes, users,
+              comments and platform operations
+              from one dashboard.
+            </p>
+
+            <div className="feature-list">
+              <span>✔ Manage Recipes</span>
+              <span>✔ Manage Users</span>
+              <span>✔ Moderate Comments</span>
+            </div>
           </div>
-        )}
+        </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="auth-form"
-          autoComplete="off"
-        >
+        {/* RIGHT SIDE */}
+        <div className="login-right">
+          <div className="auth-card">
 
-          <input
-            className="auth-input"
-            type="email"
-            placeholder="Admin Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="off"
-            name="adminEmail"
-            required
-          />
+            <h2 className="auth-title">
+              Admin Login
+            </h2>
 
-          <input
-            className="auth-input"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            name="adminPassword"
-            required
-          />
+            <p className="auth-subtitle">
+              Authorized access only
+            </p>
 
-          <button
-            type="submit"
-            className="btn-yellow auth-submit"
-          >
-            Login as Admin
-          </button>
+            {error && (
+              <div className="auth-error">
+                {error}
+              </div>
+            )}
 
-          <p className="auth-meta">
-            <Link to="/admin-forgot-password">
-              Forgot Password?
-            </Link>
-          </p>
+            <form
+              onSubmit={handleSubmit}
+              className="auth-form"
+              autoComplete="off"
+            >
+              <input
+                className="auth-input"
+                type="email"
+                placeholder="Admin Email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                autoComplete="off"
+                name="adminEmail"
+                required
+              />
 
-        </form>
+              <input
+                className="auth-input"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                autoComplete="new-password"
+                name="adminPassword"
+                required
+              />
+
+              <button
+                type="submit"
+                className="btn-yellow auth-submit"
+              >
+                Login as Admin
+              </button>
+
+              <p className="auth-meta">
+                <Link to="/admin-forgot-password">
+                  Forgot Password?
+                </Link>
+              </p>
+
+              <Link
+                to="/"
+                className="btn-yellow btn-back"
+              >
+                ← Back to Home
+              </Link>
+
+            </form>
+
+          </div>
+        </div>
 
       </div>
     </div>

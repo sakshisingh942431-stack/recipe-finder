@@ -14,11 +14,17 @@ export default function AdminForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setMsg("");
+    setError("");
+
     try {
-      const res = await API.post("/api/users/forgot-password", {
-        email,
-        password,
-      });
+      const res = await API.post(
+        "/api/users/forgot-password",
+        {
+          email,
+          password,
+        }
+      );
 
       setMsg(res.data.message);
 
@@ -29,57 +35,104 @@ export default function AdminForgotPassword() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Something went wrong"
+          "Something went wrong"
       );
     }
   };
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
+      <div className="login-layout">
 
-        <h2 className="auth-title">
-          Admin Reset Password
-        </h2>
+        {/* LEFT SIDE */}
+        <div className="login-left admin-left">
+          <div className="left-content">
+            <h1>NutriNest</h1>
+            <h2>Admin Recovery 🔐</h2>
 
-        {msg && <div className="auth-info">{msg}</div>}
-        {error && <div className="auth-error">{error}</div>}
+            <p>
+              Reset your admin password to regain
+              secure access to recipes, users,
+              dashboard controls and moderation tools.
+            </p>
 
-        <form onSubmit={handleSubmit} className="auth-form">
+            <div className="feature-list">
+              <span>✔ Secure Recovery</span>
+              <span>✔ Fast Access Restore</span>
+              <span>✔ Protected Admin Panel</span>
+            </div>
+          </div>
+        </div>
 
-          <input
-            className="auth-input"
-            type="email"
-            placeholder="Admin Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        {/* RIGHT SIDE */}
+        <div className="login-right">
+          <div className="auth-card">
 
-          <input
-            className="auth-input"
-            type="password"
-            placeholder="New Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            <h2 className="auth-title">
+              Reset Password
+            </h2>
 
-          <button
-            type="submit"
-            className="btn-yellow auth-submit"
-          >
-            Update Password
-          </button>
+            <p className="auth-subtitle">
+              Admin verification required
+            </p>
 
-          <Link
-            to="/admin-login"
-            className="btn-yellow btn-back"
-          >
-            ← Back to Admin Login
-          </Link>
+            {msg && (
+              <div className="auth-info">
+                {msg}
+              </div>
+            )}
 
-        </form>
+            {error && (
+              <div className="auth-error">
+                {error}
+              </div>
+            )}
+
+            <form
+              onSubmit={handleSubmit}
+              className="auth-form"
+            >
+              <input
+                className="auth-input"
+                type="email"
+                placeholder="Admin Email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                required
+              />
+
+              <input
+                className="auth-input"
+                type="password"
+                placeholder="New Password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                required
+              />
+
+              <button
+                type="submit"
+                className="btn-yellow auth-submit"
+              >
+                Update Password
+              </button>
+
+              <Link
+                to="/admin-login"
+                className="btn-yellow btn-back"
+              >
+                ← Back to Admin Login
+              </Link>
+
+            </form>
+
+          </div>
+        </div>
+
       </div>
     </div>
   );

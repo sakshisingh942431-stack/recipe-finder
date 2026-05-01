@@ -1,3 +1,5 @@
+// frontend/src/components/home.js
+
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -24,78 +26,104 @@ const Home = () => {
     );
   };
 
+  const handleDashboardClick = () => {
+    const token =
+      localStorage.getItem("token");
+
+    const adminToken =
+      localStorage.getItem(
+        "adminToken"
+      );
+
+    if (token || adminToken) {
+      navigate("/dashboard");
+    } else {
+      alert(
+        "Please login first"
+      );
+      navigate("/login");
+    }
+  };
+
   const features = [
     {
       icon: <FaUtensils />,
-      title: "Healthy Recipes"
+      title:
+        "Healthy Recipes",
     },
     {
       icon: <FaHeartbeat />,
-      title: "BMI Tracker"
+      title:
+        "BMI Tracker",
     },
     {
       icon: <FaTint />,
-      title: "Water Intake"
+      title:
+        "Water Intake",
     },
     {
       icon: <FaPlayCircle />,
-      title: "Short Videos"
+      title:
+        "Short Videos",
     },
     {
       icon: <FaUsers />,
-      title: "Community"
+      title:
+        "Community",
     },
     {
       icon: <FaHeart />,
-      title: "Favorites"
-    }
+      title:
+        "Favorites",
+    },
   ];
 
   const categories = [
     {
       name: "Indian",
-      img: "/recipe-images/indian-food.jpg"
+      img: "/recipe-images/indian-food.jpg",
     },
     {
       name: "Italian",
-      img: "/recipe-images/italian-food.jpg"
+      img: "/recipe-images/italian-food.jpg",
     },
     {
       name: "Drinks",
       img:
-        "https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?auto=compress&cs=tinysrgb&w=800"
+        "https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?auto=compress&cs=tinysrgb&w=800",
     },
     {
       name: "Diet",
-      img: "/recipe-images/diet-food.jpg"
+      img: "/recipe-images/diet-food.jpg",
     },
     {
       name: "Sweet",
-      img: "/recipe-images/sweet.jpg"
-    }
+      img: "/recipe-images/sweet.jpg",
+    },
   ];
 
   return (
     <div className="home-container">
 
-      {/* Floating Background */}
       <div className="blob blob1"></div>
       <div className="blob blob2"></div>
       <div className="blob blob3"></div>
 
       {/* HERO */}
-
       <section className="hero">
 
-        <div className="hero-left">
+        <div className="home-hero-left">
 
-          <span className="tagline">
-            <FaLeaf /> Healthy Living Platform
+          <span className="home-tagline">
+            <FaLeaf />
+            Healthy Living Platform
           </span>
 
           <h1>
-            Eat Smart With{" "}
-            <span>NutriNest</span>
+            Eat Smart With
+            <span>
+              NutriNest
+            </span>
 
             <img
               src={logo}
@@ -106,9 +134,10 @@ const Home = () => {
 
           <p>
             Discover healthy recipes,
-            track calories, watch short
-            videos and build better
-            habits every day.
+            track calories,
+            watch short videos
+            and build better habits
+            every day.
           </p>
 
           <div className="hero-btns">
@@ -120,12 +149,14 @@ const Home = () => {
               Explore Recipes
             </Link>
 
-            <Link
-              to="/dashboard"
+            <button
+              onClick={
+                handleDashboardClick
+              }
               className="secondary-btn"
             >
               Open Dashboard
-            </Link>
+            </button>
 
           </div>
 
@@ -148,11 +179,22 @@ const Home = () => {
 
           </div>
 
+          <div className="mini-recipes">
+            <div className="mini-recipe-card">
+              🥗 Weight Loss Meals
+            </div>
+
+            <div className="mini-recipe-card">
+              🍳 Quick Breakfast
+            </div>
+          </div>
+
         </div>
 
-        <div className="hero-right">
+        <div className="home-hero-right">
 
           <div className="hero-image-card">
+
             <img
               src="https://images.unsplash.com/photo-1490645935967-10de6ba17061"
               alt="Healthy Food"
@@ -160,13 +202,18 @@ const Home = () => {
 
             <div className="mini-card one">
               <FaChartLine />
-              <span>Calories</span>
+              <span>
+                Calories
+              </span>
             </div>
 
             <div className="mini-card two">
               <FaStar />
-              <span>Top Rated</span>
+              <span>
+                Top Rated
+              </span>
             </div>
+
           </div>
 
         </div>
@@ -174,7 +221,6 @@ const Home = () => {
       </section>
 
       {/* FEATURES */}
-
       <section className="features">
 
         <h2>
@@ -184,7 +230,10 @@ const Home = () => {
         <div className="feature-grid">
 
           {features.map(
-            (item, index) => (
+            (
+              item,
+              index
+            ) => (
               <div
                 className="feature-card"
                 key={index}
@@ -205,7 +254,6 @@ const Home = () => {
       </section>
 
       {/* CATEGORY */}
-
       <section className="categories">
 
         <h2>
@@ -215,7 +263,10 @@ const Home = () => {
         <div className="category-grid">
 
           {categories.map(
-            (item, index) => (
+            (
+              item,
+              index
+            ) => (
               <div
                 className="category-card"
                 key={index}
@@ -241,8 +292,7 @@ const Home = () => {
 
       </section>
 
-      {/* PREMIUM CTA */}
-
+      {/* CTA */}
       <section className="cta">
 
         <div className="cta-box">
@@ -252,9 +302,10 @@ const Home = () => {
           </h2>
 
           <p>
-            Join NutriNest and turn
-            your daily meals into a
-            healthier lifestyle.
+            Join NutriNest and
+            turn your daily meals
+            into a healthier
+            lifestyle.
           </p>
 
           <Link
@@ -269,15 +320,11 @@ const Home = () => {
       </section>
 
       {/* FOOTER */}
-
       <footer className="footer">
-
         <h3>NutriNest</h3>
-
         <p>
           Eat Better • Live Better
         </p>
-
       </footer>
 
     </div>

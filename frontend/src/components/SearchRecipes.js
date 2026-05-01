@@ -1,4 +1,3 @@
-// src/components/SearchRecipes.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
@@ -12,7 +11,7 @@ const SearchRecipes = () => {
 
   const location = useLocation();
 
-  // Search filter function
+  // Filter function
   const filterRecipes = (allRecipes, value) => {
     if (!value) return allRecipes;
 
@@ -43,28 +42,36 @@ const SearchRecipes = () => {
     });
   };
 
-  // Fetch Recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         setLoading(true);
 
-        const res = await axios.get("http://localhost:5000/api/recipes");
-        const data = res.data || [];
+        const res = await axios.get(
+          "http://localhost:5000/api/recipes"
+        );
 
+        const data = res.data || [];
         setRecipes(data);
 
         const params = new URLSearchParams(location.search);
-        const categoryFromURL = params.get("category") || "";
 
-        if (categoryFromURL) {
-          setSearchTerm(categoryFromURL);
-          setFilteredRecipes(filterRecipes(data, categoryFromURL));
-        } else {
-          setFilteredRecipes(data);
-        }
+        // IMPORTANT FIX
+        const queryFromURL =
+          params.get("q") ||
+          params.get("category") ||
+          "";
+
+        setSearchTerm(queryFromURL);
+        setFilteredRecipes(
+          filterRecipes(data, queryFromURL)
+        );
+
       } catch (error) {
-        console.log("Error fetching recipes", error);
+        console.log(
+          "Error fetching recipes",
+          error
+        );
       } finally {
         setLoading(false);
       }
@@ -73,11 +80,14 @@ const SearchRecipes = () => {
     fetchRecipes();
   }, [location.search]);
 
-  // Input Search
+  // Manual Search Input
   const handleSearchChange = (e) => {
     const value = e.target.value;
+
     setSearchTerm(value);
-    setFilteredRecipes(filterRecipes(recipes, value));
+    setFilteredRecipes(
+      filterRecipes(recipes, value)
+    );
   };
 
   const quickFilters = [
@@ -91,11 +101,18 @@ const SearchRecipes = () => {
 
   return (
     <div className="search-page">
-      {/* Hero Section */}
+
+      {/* HERO */}
       <div className="search-header">
-        <h1>Discover Delicious Recipes 🍴</h1>
+
+        <h1>
+          Discover Delicious Recipes 🍴
+        </h1>
+
         <p>
-          Search by name, ingredient, category or explore trending healthy meals.
+          Search by name, ingredient,
+          category or explore trending
+          healthy meals.
         </p>
 
         <input
@@ -106,63 +123,97 @@ const SearchRecipes = () => {
           onChange={handleSearchChange}
         />
 
-        {/* Quick Filters */}
+        {/* QUICK FILTERS */}
         <div className="filter-buttons">
-          {quickFilters.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setSearchTerm(item);
-                setFilteredRecipes(filterRecipes(recipes, item));
-              }}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </div>
+          {quickFilters.map(
+            (item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setSearchTerm(item);
 
-      {/* Loading */}
-      {loading && <p className="search-status">Loading recipes...</p>}
-
-      {/* Results */}
-      {!loading && (
-        <div className="search-results-grid">
-          {filteredRecipes.length === 0 ? (
-            <p className="search-status">
-              No recipes found 😔 Try another keyword.
-            </p>
-          ) : (
-            filteredRecipes.map((recipe) => {
-              const id = recipe._id || recipe.id;
-
-              return (
-                <div key={id} className="recipe-card">
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="recipe-image"
-                  />
-
-                  <div className="card-content">
-                    <h3>{recipe.title}</h3>
-
-                    <p>
-                      {recipe.description
-                        ? recipe.description.slice(0, 90) + "..."
-                        : "Healthy and tasty recipe for your lifestyle."}
-                    </p>
-
-                    <Link to={`/recipes/${id}`} className="view-btn">
-                      View Details →
-                    </Link>
-                  </div>
-                </div>
-              );
-            })
+                  setFilteredRecipes(
+                    filterRecipes(
+                      recipes,
+                      item
+                    )
+                  );
+                }}
+              >
+                {item}
+              </button>
+            )
           )}
         </div>
+
+      </div>
+
+      {/* LOADING */}
+      {loading && (
+        <p className="search-status">
+          Loading recipes...
+        </p>
       )}
+
+      {/* RESULTS */}
+      {!loading && (
+        <div className="search-results-grid">
+
+          {filteredRecipes.length === 0 ? (
+            <p className="search-status">
+              No recipes found 😔
+              Try another keyword.
+            </p>
+          ) : (
+            filteredRecipes.map(
+              (recipe) => {
+                const id =
+                  recipe._id ||
+                  recipe.id;
+
+                return (
+                  <div
+                    key={id}
+                    className="recipe-card"
+                  >
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className="recipe-image"
+                    />
+
+                    <div className="card-content">
+
+                      <h3>
+                        {recipe.title}
+                      </h3>
+
+                      <p>
+                        {recipe.description
+                          ? recipe.description.slice(
+                              0,
+                              90
+                            ) + "..."
+                          : "Healthy and tasty recipe for your lifestyle."}
+                      </p>
+
+                      <Link
+                        to={`/recipes/${id}`}
+                        className="view-btn"
+                      >
+                        View Details →
+                      </Link>
+
+                    </div>
+                  </div>
+                );
+              }
+            )
+          )}
+
+        </div>
+      )}
+
     </div>
   );
 };

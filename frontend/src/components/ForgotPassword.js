@@ -1,5 +1,3 @@
-// frontend/src/components/ForgotPassword.js
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/auth";
@@ -11,12 +9,16 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setMsg("");
+    setError("");
+
     try {
-      const res = await API.post("/api/users/forgot-password", {
+      await API.post("/api/users/forgot-password", {
         email,
         password,
       });
@@ -28,7 +30,7 @@ export default function ForgotPassword() {
       }, 1500);
 
     } catch (err) {
-      setMsg(
+      setError(
         err.response?.data?.message ||
         "Something went wrong"
       );
@@ -37,54 +39,94 @@ export default function ForgotPassword() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
+      <div className="login-layout">
 
-        <h2 className="auth-title">Forgot Password</h2>
+        <div className="login-left">
+          <div className="left-content">
+            <h1>NutriNest</h1>
+            <h2>Account Recovery 🔒</h2>
 
-       {msg && (
-  <div
-    style={{
-      background: "#d4edda",
-      color: "#155724",
-      padding: "10px",
-      borderRadius: "8px",
-      marginBottom: "15px",
-      textAlign: "center",
-      fontWeight: "600"
-    }}
-  >
-    {msg}
-  </div>
-)}
+            <p>
+              Reset your password and continue
+              your healthy journey securely.
+            </p>
 
-        <form onSubmit={handleSubmit} className="auth-form">
+            <div className="feature-list">
+              <span>✔ Secure Reset</span>
+              <span>✔ Quick Recovery</span>
+              <span>✔ Safe Access</span>
+            </div>
+          </div>
+        </div>
 
-          <input
-            type="email"
-            placeholder="Enter Your Email"
-            className="auth-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="login-right">
+          <div className="auth-card">
 
-          <input
-            type="password"
-            placeholder="Enter New Password"
-            className="auth-input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            <h2 className="auth-title">
+              Forgot Password
+            </h2>
 
-          <button
-            type="submit"
-            className="btn-yellow auth-submit"
-          >
-            Update Password
-          </button>
+            <p className="auth-subtitle">
+              Enter details to reset access
+            </p>
 
-        </form>
+            {msg && (
+              <div className="auth-info">
+                {msg}
+              </div>
+            )}
+
+            {error && (
+              <div className="auth-error">
+                {error}
+              </div>
+            )}
+
+            <form
+              onSubmit={handleSubmit}
+              className="auth-form"
+            >
+              <input
+                type="email"
+                placeholder="Enter Your Email"
+                className="auth-input"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                required
+              />
+
+              <input
+                type="password"
+                placeholder="Enter New Password"
+                className="auth-input"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                required
+              />
+
+              <button
+                type="submit"
+                className="btn-yellow auth-submit"
+              >
+                Update Password
+              </button>
+
+              <button
+                type="button"
+                className="btn-yellow btn-back"
+                onClick={() => navigate("/login")}
+              >
+                ← Back to Login
+              </button>
+
+            </form>
+
+          </div>
+        </div>
 
       </div>
     </div>

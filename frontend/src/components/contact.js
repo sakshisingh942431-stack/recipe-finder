@@ -10,7 +10,9 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,8 +20,17 @@ const Contact = () => {
     });
   };
 
+  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // basic validation (extra safety)
+    if (!formData.name || !formData.email || !formData.message) {
+      setStatus("⚠️ Please fill all fields");
+      return;
+    }
+
+    setLoading(true);
     setStatus("Sending your message...");
 
     try {
@@ -27,12 +38,20 @@ const Contact = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // token optional rakha (error avoid karega)
+          ...(localStorage.getItem("token") && {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }),
         },
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        // agar JSON na mile toh crash nahi hoga
+      }
 
       if (res.ok) {
         setStatus("✅ Message sent successfully!");
@@ -42,17 +61,20 @@ const Contact = () => {
           message: "",
         });
       } else {
-        setStatus(data.message || "❌ Something went wrong");
+        setStatus(data.message || "❌ Failed to send message");
       }
     } catch (error) {
-      setStatus("❌ Server error. Try again later.");
+      setStatus("❌ Server error. Please try again.");
     }
+
+    setLoading(false);
   };
 
   return (
     <div className="contact-page">
       <div className="contact-wrapper">
-        {/* Left Info Section */}
+
+        {/* Left Section */}
         <div className="contact-info">
           <span className="badge">Get In Touch</span>
 
@@ -85,7 +107,7 @@ const Contact = () => {
           </Link>
         </div>
 
-        {/* Right Form Section */}
+        {/* Right Form */}
         <div className="contact-card">
           <h2>Send Us Message 💬</h2>
           <p>We usually reply quickly. Good food can't wait.</p>
@@ -118,7 +140,9 @@ const Contact = () => {
               required
             ></textarea>
 
-            <button type="submit">Send Message</button>
+            <button type="submit" disabled={loading}>
+              {loading ? "Sending..." : "Send Message"}
+            </button>
           </form>
 
           {status && <p className="form-status">{status}</p>}

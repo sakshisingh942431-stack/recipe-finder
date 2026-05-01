@@ -1,0 +1,224 @@
+/* frontend/src/components/PremiumUpgrade.css */
+
+/* PremiumUpgrade.css me .premium-page ko replace karo */
+
+.premium-page {
+  min-height: 100vh;
+  padding: 120px 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* SAME HOME PAGE BACKGROUND */
+  background:
+    radial-gradient(circle at 180px 320px,
+      rgba(34,197,94,.08) 0 16px,
+      transparent 17px),
+
+    radial-gradient(circle at 520px 340px,
+      rgba(245,158,11,.08) 0 18px,
+      transparent 19px),
+
+    radial-gradient(circle at 760px 300px,
+      rgba(34,197,94,.08) 0 20px,
+      transparent 21px),
+
+    radial-gradient(circle at 1080px 210px,
+      rgba(245,158,11,.08) 0 18px,
+      transparent 19px),
+
+    radial-gradient(circle at 1380px 260px,
+      rgba(34,197,94,.08) 0 22px,
+      transparent 23px),
+
+    radial-gradient(circle at 260px 560px,
+      rgba(245,158,11,.08) 0 20px,
+      transparent 21px),
+
+    radial-gradient(circle at 700px 620px,
+      rgba(34,197,94,.08) 0 18px,
+      transparent 19px),
+
+    radial-gradient(circle at 1200px 580px,
+      rgba(245,158,11,.08) 0 22px,
+      transparent 23px),
+
+    linear-gradient(
+      135deg,
+      #e8fff1 0%,
+      #d7fbe8 30%,
+      #f0fff4 60%,
+      #fff7e6 100%
+    );
+
+  background-size:
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    300px 300px,
+    cover;
+
+  background-repeat: repeat;
+}
+.premium-card {
+  width: 100%;
+  max-width: 780px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.premium-card h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #1f7a45;
+  margin-bottom: 12px;
+}
+
+.premium-card p {
+  text-align: center;
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 28px;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.plan {
+  background: #fff;
+  border: 2px solid #ececec;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.plan:hover {
+  transform: translateY(-4px);
+  border-color: #f39c12;
+}
+
+.plan h3 {
+  font-size: 1.8rem;
+  color: #ff8c00;
+  margin-bottom: 8px;
+}
+
+.plan p {
+  margin: 0;
+  color: #666;
+}
+
+.plan.active {
+  border-color: #1f7a45;
+  background: #effff4;
+}
+
+.payment-tabs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.payment-tabs button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #f3f3f3;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.payment-tabs button:hover {
+  background: #ffedd1;
+}
+
+.pay-box {
+  background: #fafafa;
+  border-radius: 18px;
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.pay-box input {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.pay-box input:focus {
+  border-color: #1f7a45;
+}
+
+.qr-box {
+  text-align: center;
+}
+
+.qr-box h3 {
+  color: #ff8c00;
+  margin-bottom: 14px;
+}
+
+.qr-box img {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background: white;
+  padding: 8px;
+}
+
+.pay-btn {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    #1f7a45,
+    #ff8c00
+  );
+  transition: 0.3s ease;
+}
+
+.pay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(31, 122, 69, 0.18);
+}
+
+@media (max-width: 768px) {
+  .premium-card {
+    padding: 24px;
+  }
+
+  .plans {
+    grid-template-columns: 1fr;
+  }
+
+  .premium-card h1 {
+    font-size: 1.8rem;
+  }
+}

@@ -1,18 +1,13 @@
-// backend/controllers/mealdbController.js
 const axios = require("axios");
 const Recipe = require("../models/RecipeModel");
 
-async function importMealDb  (req, res) {
+async function importMealDb(req, res) {
   try {
-    // ---------- INPUT NORMALIZE ----------
-
-    // Optional area: "Indian" / "italian" ...
     const rawArea = (req.body.area || "").trim();
     const area = rawArea
       ? rawArea.charAt(0).toUpperCase() + rawArea.slice(1).toLowerCase()
       : "";
 
-    // Optional category: "Dessert" / "Seafood" ...
     const rawCategory = (req.body.category || "").trim();
     const category = rawCategory
       ? rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1).toLowerCase()
@@ -20,25 +15,19 @@ async function importMealDb  (req, res) {
 
     const MEALDB_BASE = "https://www.themealdb.com/api/json/v1/1";
 
-    // ---------- 1) LIST FETCH (area / category ke hisaab se) ----------
-
     let filterParams = {};
     let contextLabel = "";
 
     if (area && !category) {
-      // Sirf area diya hai -> ?a=Indian
       filterParams = { a: area };
       contextLabel = `area: ${area}`;
     } else if (!area && category) {
-      // Sirf category diya hai -> ?c=Dessert
       filterParams = { c: category };
       contextLabel = `category: ${category}`;
     } else if (area && category) {
-      // Dono diye hain -> pehle category se list, baad me area se filter
       filterParams = { c: category };
       contextLabel = `category: ${category} (filter area: ${area})`;
     } else {
-      // Kuch nahi diya -> default Dessert category
       filterParams = { c: "Dessert" };
       contextLabel = "default category: Dessert";
     }
@@ -57,10 +46,7 @@ async function importMealDb  (req, res) {
       });
     }
 
-    // Thoda limit (20)
     mealsList = mealsList.slice(0, 20);
-
-    // ---------- 2) FULL DETAIL FOR EACH MEAL ----------
 
     const detailPromises = mealsList.map((m) =>
       axios.get(`${MEALDB_BASE}/lookup.php`, {
@@ -74,9 +60,6 @@ async function importMealDb  (req, res) {
       .map((r) => (r.data.meals && r.data.meals[0]) || null)
       .filter(Boolean);
 
-    // ---------- 3) Extra filtering (area + category combo) ----------
-
-    // Agar dono diye the (area + category), to ab detail me se area filter
     if (area && category) {
       fullMeals = fullMeals.filter(
         (meal) => (meal.strArea || "").toLowerCase() === area.toLowerCase()
@@ -91,13 +74,17 @@ async function importMealDb  (req, res) {
       });
     }
 
-    // ---------- 4) SAVE TO MONGODB (avoid duplicates) ----------
-
     let inserted = 0;
     let skipped = 0;
     const savedTitles = [];
 
     for (let meal of fullMeals) {
+
+      // 🔥 NEW ADD (video filter)
+      if (!meal.strYoutube) {
+        continue;
+      }
+
       const exists = await Recipe.findOne({ title: meal.strMeal });
       if (exists) {
         skipped++;
@@ -107,14 +94,21 @@ async function importMealDb  (req, res) {
       const ingredients = [];
       for (let i = 1; i <= 20; i++) {
         const ing = meal[`strIngredient${i}`];
-        const qty = meal[`strMeasure${i}`];
-        if (ing && ing.trim()) {
-          ingredients.push({
-            name: ing.trim(),
-            qty: (qty || "").trim(),
-          });
+        const measure = meal[`strMeasure${i}`];
+
+        if (ing && ing.trim() !== "") {
+          ingredients.push(
+            `${ing.trim()} ${measure ? measure.trim() : ""}`.trim()
+          );
         }
       }
+
+      const steps = meal.strInstructions
+        ? meal.strInstructions
+            .split(/\r?\n|\./)
+            .map((s) => s.trim())
+            .filter((s) => s !== "")
+        : [];
 
       const newRecipe = new Recipe({
         title: meal.strMeal,
@@ -123,11 +117,18 @@ async function importMealDb  (req, res) {
         category: meal.strCategory,
         description: meal.strInstructions,
         tags: meal.strTags ? meal.strTags.split(",") : [],
+
         ingredients,
+        steps,
+
+        videoUrl: meal.strYoutube || "",
+        source: "mealdb",
+        mealDbId: meal.idMeal,
       });
 
       await newRecipe.save();
       inserted++;
+
       savedTitles.push({
         title: meal.strMeal,
         area: meal.strArea,
@@ -141,21 +142,13 @@ async function importMealDb  (req, res) {
       skipped,
       recipes: savedTitles,
     });
+
   } catch (err) {
     console.error("IMPORT MEALDB ERROR:", err);
     res.status(500).json({ message: "Failed to import recipes" });
   }
 }
+
 module.exports = {
   importMealDb,
 };
-
-
-
-
-
-
-
-
-
-
