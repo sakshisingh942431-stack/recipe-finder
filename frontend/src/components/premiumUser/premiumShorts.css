@@ -1,0 +1,70 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.shorts-page {
+     background: radial-gradient(circle at 10% 20%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 25% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 45% 15%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 65% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 85% 25%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 20% 70%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 75% 80%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    linear-gradient(135deg,#e8fff1 0%,#dff8e7 45%,#fff5dc 100%);
+;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+   
+}
+
+.short-card { height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.short-card video {
+   height: 85vh;       /* 👈 पहले full था, अब छोटा */
+  max-width: 400px;   /* 👈 mobile reel size */
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.short-card h4 {
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+  color: black;
+  background: rgba(255, 165, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.back-buttons {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 9999;   /* 👈 IMPORTANT */
+  display: flex;
+  gap: 10px;
+}
+.back-buttons button {
+  background: rgba(255, 165, 0, 0.6); /* orange with transparency */
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.shorts-title {
+  position: fixed;
+  top: 60px;
+  left: 15px;
+  color: black;
+  z-index: 999;
+}

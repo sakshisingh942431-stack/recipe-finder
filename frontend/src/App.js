@@ -31,21 +31,36 @@ import ForgotPassword from "./components/ForgotPassword";
 import AdminForgotPassword from "./components/admin/AdminForgotPassword";
 import ManageMessages from "./components/admin/ManageMessages";
 
-// 🔥 IMPORTANT
+// 🔥 PREMIUM
 import PremiumDashboard from "./components/premiumUser/PremiumDashboard";
 import PremiumUpgrade from "./components/PremiumUpgrade";
+import PremiumShorts from "./components/premiumUser/PremiumShorts";
+import PremiumMessages from "./components/premiumUser/PremiumMessages";
 
-// 👉 NEW (free dashboard)
+// 👉 FREE DASHBOARD
 import Dashboard from "./components/Dashboard";
+import ShortsAdmin from "./components/admin/ShortsAdmin";
 
-/* ✅ Navbar hide logic component */
+/* ✅ Navbar hide logic */
 function Layout() {
   const location = useLocation();
 
+  // 🔥 hide navbar routes list
+  const hideNavbarRoutes = [
+    "/admin",
+    "/premium/shorts",
+    "/premium/messages", // 👈 ADD किया
+  ];
+
+  // check if navbar should hide
+  const shouldHideNavbar = hideNavbarRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+
   return (
     <>
-      {/* ❌ Admin pages पर Navbar hide */}
-      {!location.pathname.startsWith("/admin") && <Navbar />}
+      {/* ✅ Navbar condition */}
+      {!shouldHideNavbar && <Navbar />}
 
       <Routes>
         {/* Public */}
@@ -59,8 +74,25 @@ function Layout() {
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/premium-upgrade" element={<PremiumUpgrade />} />
 
-        {/* Messages */}
-        <Route path="/admin/messages" element={<ManageMessages />} />
+        {/* ✅ USER MESSAGES */}
+        <Route
+          path="/premium/messages"
+          element={
+            <ProtectedRoute premiumOnly={true}>
+              <PremiumMessages />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ ADMIN MESSAGES */}
+        <Route
+          path="/admin/messages"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ManageMessages />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin-forgot-password"
@@ -87,7 +119,16 @@ function Layout() {
           }
         />
 
-        {/* बाकी */}
+        <Route
+          path="/premium/shorts"
+          element={
+            <ProtectedRoute premiumOnly={true}>
+              <PremiumShorts />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* USER */}
         <Route
           path="/profile"
           element={
@@ -124,12 +165,21 @@ function Layout() {
           }
         />
 
-        {/* Admin */}
+        {/* ADMIN */}
         <Route
           path="/admin"
           element={
             <ProtectedRoute adminOnly={true}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/shorts"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ShortsAdmin />
             </ProtectedRoute>
           }
         />

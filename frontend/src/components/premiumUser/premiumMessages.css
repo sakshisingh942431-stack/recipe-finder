@@ -1,0 +1,76 @@
+/* 🌿 Full page background (HOME जैसा) */
+.messages-page {
+  min-height: 100vh;
+  padding: 20px;
+  background:radial-gradient(circle at 10% 20%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 25% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 45% 15%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 65% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 85% 25%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 20% 70%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 75% 80%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    linear-gradient(135deg,#e8fff1 0%,#dff8e7 45%,#fff5dc 100%);
+}
+
+/* 🔝 Header section */
+.messages-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* 🔘 Buttons row */
+.top-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* 🔙 Back button */
+.back-btn {
+  background:  linear-gradient(90deg, #4caf50, #ffa726);
+  border: 1px solid #ddd;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #f1f1f1;
+}
+
+/* 🏠 Dashboard button */
+.home-btn {
+  background: linear-gradient(90deg, #4caf50, #ffa726);
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.home-btn:hover {
+  opacity: 0.9;
+}
+
+/* 📩 Heading */
+.messages-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* 📦 Messages list */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 💬 Message card */
+.message-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}

@@ -22,6 +22,13 @@ import {
 import PremiumSidebar from "./PremiumSidebar";
 import "./premiumDashboard.css";
 
+// 🔥 NEW: import messages component
+import UserMessages from "../UserMessages";
+
+// 🔥 NEW: import upload component
+import ShortUpload from "../ShortUpload";
+import ShortVideos from "../ShortVideos";
+import ShortReels from "../ShortReels";
 export default function PremiumDashboard() {
 
   const navigate = useNavigate();
@@ -30,6 +37,9 @@ export default function PremiumDashboard() {
   const [liked, setLiked] = useState(
     JSON.parse(localStorage.getItem("favorites")) || []
   );
+
+  // 🔥 NEW: upload toggle state
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
 
@@ -115,7 +125,11 @@ export default function PremiumDashboard() {
   return (
     <div className="dashboard-container">
 
-      <PremiumSidebar onLogout={handleLogout} />
+      {/* 🔥 UPDATED: pass handler to sidebar */}
+      <PremiumSidebar
+        onLogout={handleLogout}
+        onOpenShortUpload={() => setShowUpload(true)}
+      />
 
       <div className="main-content">
 
@@ -145,6 +159,13 @@ export default function PremiumDashboard() {
             />
           </div>
         </div>
+
+        {/* 🔥 NEW: Upload Form (non-intrusive placement) */}
+        {showUpload && (
+          <div style={{ margin: "20px 0" }}>
+            <ShortUpload />
+          </div>
+        )}
 
         {/* STATS */}
         <div className="stats-grid">
@@ -192,7 +213,7 @@ export default function PremiumDashboard() {
 
         </div>
 
-        {/* 🔥 RECIPES ADDED (ONLY NEW PART) */}
+        {/* RECIPES */}
         <div className="recipes-section">
 
           <h2 style={{ marginBottom: "20px" }}>
@@ -262,6 +283,10 @@ export default function PremiumDashboard() {
           </div>
 
         </div>
+
+        
+        
+<ShortVideos />
 
       </div>
     </div>

@@ -12,7 +12,7 @@ const Contact = () => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // handle input change
+  // input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -20,11 +20,10 @@ const Contact = () => {
     });
   };
 
-  // handle submit
+  // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // basic validation (extra safety)
     if (!formData.name || !formData.email || !formData.message) {
       setStatus("⚠️ Please fill all fields");
       return;
@@ -34,27 +33,22 @@ const Contact = () => {
     setStatus("Sending your message...");
 
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const token = localStorage.getItem("token"); // 🔥 IMPORTANT
+
+      const res = await fetch("http://localhost:5000/api/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // token optional rakha (error avoid karega)
-          ...(localStorage.getItem("token") && {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }),
+          Authorization: `Bearer ${token}`, // 🔥 REQUIRED
         },
         body: JSON.stringify(formData),
       });
 
-      let data = {};
-      try {
-        data = await res.json();
-      } catch {
-        // agar JSON na mile toh crash nahi hoga
-      }
+      const data = await res.json();
 
       if (res.ok) {
         setStatus("✅ Message sent successfully!");
+
         setFormData({
           name: "",
           email: "",
@@ -74,7 +68,7 @@ const Contact = () => {
     <div className="contact-page">
       <div className="contact-wrapper">
 
-        {/* Left Section */}
+        {/* Left */}
         <div className="contact-info">
           <span className="badge">Get In Touch</span>
 
@@ -107,7 +101,7 @@ const Contact = () => {
           </Link>
         </div>
 
-        {/* Right Form */}
+        {/* Form */}
         <div className="contact-card">
           <h2>Send Us Message 💬</h2>
           <p>We usually reply quickly. Good food can't wait.</p>

@@ -26,28 +26,56 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 /* ======================
+   🔥 GET MESSAGES COUNT (ADMIN BADGE)
+====================== */
+router.get("/count", async (req, res) => {
+  try {
+    const count = await Contact.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+/* ======================
+   🔥 ADMIN REPLY
+====================== */
+router.put("/reply/:id", async (req, res) => {
+  try {
+    const { reply } = req.body;
+
+    const updatedMessage = await Contact.findByIdAndUpdate(
+      req.params.id,
+      { reply },
+      { new: true }
+    );
+
+    res.json(updatedMessage);
+  } catch (err) {
+    res.status(500).json({ message: "Reply failed" });
+  }
+});
+
+/* ======================
    GET ALL MESSAGES (ADMIN PANEL)
 ====================== */
 router.get("/", async (req, res) => {
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
-
-    res.json(messages); // ✅ MUST be array
+    res.json(messages);
   } catch (err) {
     res.status(500).json({ message: "Error fetching messages" });
   }
 });
 
 /* ======================
-   GET MY MESSAGES (PROFILE)
+   🔥 GET MY MESSAGES (USER)
 ====================== */
 router.get("/my", authMiddleware, async (req, res) => {
   try {
     const messages = await Contact.find({
       userId: req.user.userId,
-    })
-      .sort({ createdAt: -1 })
-      .limit(1);
+    }).sort({ createdAt: -1 });   // ✅ FIX: limit हटाया
 
     res.json(messages);
   } catch (err) {

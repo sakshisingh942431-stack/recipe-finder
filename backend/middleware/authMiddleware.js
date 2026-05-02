@@ -6,6 +6,7 @@ module.exports = function authMiddleware(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
 
+    // 🔥 FIX: proper check
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
@@ -14,7 +15,6 @@ module.exports = function authMiddleware(req, res, next) {
 
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // ✅ explicitly userId attach karo
     req.user = {
       userId: decoded.userId,
     };

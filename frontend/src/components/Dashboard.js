@@ -11,6 +11,9 @@ import {
 import FreeSidebar from "./FreeSidebar";
 import "./Dashboard.css";
 
+// 🔥 NEW: import messages component
+import UserMessages from "./UserMessages";
+
 export default function FreeDashboard() {
 
   const navigate = useNavigate();
@@ -46,7 +49,6 @@ export default function FreeDashboard() {
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
 
-  /* SAME RECIPES */
   const recipes = [
     {
       id: "111",
@@ -94,9 +96,7 @@ export default function FreeDashboard() {
         {/* HERO */}
         <div className="hero-card">
           <div className="hero-left">
-
             <h1>Welcome to NutriNest</h1>
-
             <p>
               Basic features unlocked. Upgrade to access full dashboard.
             </p>
@@ -104,7 +104,6 @@ export default function FreeDashboard() {
             <button onClick={() => navigate("/premium-upgrade")}>
               Upgrade to Premium
             </button>
-
           </div>
 
           <div className="hero-right">
@@ -115,7 +114,7 @@ export default function FreeDashboard() {
           </div>
         </div>
 
-        {/* STATS (Basic visible) */}
+        {/* STATS */}
         <div className="stats-grid">
           <div className="card">🔥 Calories <h2>0</h2></div>
           <div className="card">💧 Water <h2>0</h2></div>
@@ -123,9 +122,8 @@ export default function FreeDashboard() {
           <div className="card">❤️ Favorites <h2>{liked.length}</h2></div>
         </div>
 
-        {/* 🔒 LOCKED FEATURES */}
+        {/* LOCKED FEATURES */}
         <div className="chart-grid">
-
           <div className="chart-card locked">
             <h3>Weekly Report <FaLock /></h3>
           </div>
@@ -133,10 +131,9 @@ export default function FreeDashboard() {
           <div className="chart-card locked">
             <h3>Nutrition Goal <FaLock /></h3>
           </div>
-
         </div>
 
-        {/* UPGRADE BOX */}
+        {/* UPGRADE */}
         <div className="upgrade-box">
           <h2>✨ Go Premium</h2>
           <p>Unlock charts, analytics & full dashboard</p>
@@ -146,7 +143,7 @@ export default function FreeDashboard() {
           </button>
         </div>
 
-        {/* ✅ RECIPES (FREE USERS CAN USE) */}
+        {/* RECIPES */}
         <div className="smart-recipes">
 
           {recipes.map((item) => (
@@ -206,6 +203,9 @@ export default function FreeDashboard() {
           ))}
 
         </div>
+
+        {/* 🔥 NEW SECTION: USER MESSAGES */}
+        <UserMessages />
 
       </div>
     </div>

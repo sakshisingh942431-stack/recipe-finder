@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./Profile.css";
 
+// 🔥 NEW: import messages component
+import UserMessages from "./UserMessages";
+
 export default function ProfilePage() {
 
   const navigate = useNavigate();
@@ -297,6 +300,11 @@ export default function ProfilePage() {
           <p>⭐ Rated 5⭐ Salad Bowl</p>
         </div>
 
+      </section>
+
+      {/* 🔥 USER MESSAGES */}
+      <section>
+        <UserMessages />
       </section>
 
       {/* MODAL */}
