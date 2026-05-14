@@ -1,0 +1,114 @@
+.page-bg {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(to right, #d4f5e9, #f9e7c3);
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* 🔝 Top bar */
+.top-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.top-bar button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #4CAF50;
+  color: white;
+  transition: 0.3s;
+}
+
+.top-bar button:hover {
+  transform: scale(1.05);
+}
+
+/* 🔍 Search */
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+/* 🔥 Filter buttons */
+.filter-btns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-btns button {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-btns button.active {
+  background: linear-gradient(45deg, #4CAF50, orange);
+  color: white;
+}
+
+/* 🎥 Grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* 📦 Card */
+.video-card {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+  position: relative;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 🔥 Trending badge */
+.trending-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* ❤️ Likes */
+.like-text {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* ❌ Reset */
+.delete {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  opacity: 0.8;
+}

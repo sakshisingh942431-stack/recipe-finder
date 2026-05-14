@@ -1,0 +1,552 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FULL PAGE */
+
+.water-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 25% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 45% 15%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 65% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 85% 25%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    linear-gradient(
+      135deg,
+      #e8fff1 0%,
+      #dff8e7 45%,
+      #fff5dc 100%
+    );
+
+  font-family: Arial, sans-serif;
+
+  position: relative;
+}
+
+/* CARD */
+
+.water-card {
+  width: 100%;
+  max-width: 700px;
+
+  background: rgba(255,255,255,0.88);
+
+  backdrop-filter: blur(10px);
+
+  border-radius: 28px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.08);
+
+  animation: fadeIn 0.5s ease;
+}
+
+/* TITLE */
+
+.water-card h1 {
+  font-size: 42px;
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+.water-card h2 {
+  font-size: 60px;
+  color: #ff9800;
+  margin-bottom: 10px;
+}
+
+.water-card p {
+  color: #555;
+  font-size: 18px;
+}
+
+/* STREAK */
+
+.streak-box {
+  margin-bottom: 20px;
+}
+
+.streak-box h3 {
+  color: #ff9800;
+  font-size: 24px;
+}
+
+/* GOAL */
+
+.goal-box {
+  margin-top: 25px;
+}
+
+.goal-box h3 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.goal-box input {
+
+  width: 180px;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  border: 2px solid #43a047;
+
+  font-size: 18px;
+
+  text-align: center;
+
+  outline: none;
+}
+
+/* PROGRESS BAR */
+
+.progress-container {
+  width: 100%;
+  height: 26px;
+
+  background: #e0e0e0;
+
+  border-radius: 30px;
+
+  margin-top: 35px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      to right,
+      #43a047,
+      #00c853
+    );
+
+  border-radius: 30px;
+
+  transition: 0.4s ease;
+}
+
+.percentage-text {
+  margin-top: 14px;
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 20px;
+}
+
+/* BUTTONS */
+
+.water-buttons {
+  display: flex;
+  gap: 15px;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  margin-top: 35px;
+}
+
+.water-buttons button {
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      to right,
+      #43a047,
+      #ff9800
+    );
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.08);
+}
+
+.water-buttons button:hover {
+
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 12px 20px rgba(0,0,0,0.12);
+}
+
+/* RESET BUTTON */
+
+.reset-btn {
+
+  margin-top: 30px;
+
+  border: none;
+
+  padding: 14px 24px;
+
+  border-radius: 14px;
+
+  background: crimson;
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.reset-btn:hover {
+
+  transform: scale(1.05);
+}
+
+/* MESSAGE */
+
+.water-message {
+  margin-top: 30px;
+}
+
+.water-message p {
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  color: #2e7d32;
+}
+
+/* BACK BUTTON */
+
+.back-btn {
+
+  position: absolute;
+
+  top: 25px;
+  left: 25px;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      to right,
+      #43a047,
+      #ff9800
+    );
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  font-size: 18px;
+}
+
+.back-btn:hover {
+
+  transform:
+    translateY(-3px);
+}
+
+/* REMINDER */
+
+.reminder-box{
+  margin-top:25px;
+
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+
+  align-items:center;
+}
+
+.reminder-box h3{
+  color:#2e7d32;
+}
+
+.reminder-box select{
+
+  padding:10px 15px;
+
+  border-radius:10px;
+
+  border:none;
+
+  font-size:16px;
+
+  outline:none;
+}
+
+.reminder-btn{
+
+  padding:12px 20px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:linear-gradient(
+    to right,
+    #43a047,
+    #ff9800
+  );
+
+  color:white;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+.reminder-btn:hover{
+  transform:scale(1.05);
+}
+
+/* HISTORY */
+
+.history-box {
+
+  margin-top: 35px;
+
+  text-align: left;
+
+  background: rgba(255,255,255,0.7);
+
+  padding: 20px;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.05);
+}
+
+.history-box h3 {
+
+  color: #2e7d32;
+
+  margin-bottom: 15px;
+
+  font-size: 24px;
+}
+
+.history-box ul{
+  list-style:none;
+}
+
+.history-box li {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #eee;
+
+  color: #444;
+
+  font-weight: 600;
+
+  flex-wrap: wrap;
+}
+
+.history-box li:last-child{
+  border-bottom:none;
+}
+
+.history-box span{
+  color:#ff9800;
+}
+
+/* WEEKLY ANALYTICS */
+
+.analytics-box{
+
+  margin-top:35px;
+
+  background: rgba(255,255,255,0.7);
+
+  padding:20px;
+
+  border-radius:18px;
+}
+
+.analytics-box h3{
+  color:#2e7d32;
+  margin-bottom:15px;
+}
+
+.analytics-item{
+
+  margin-bottom:15px;
+}
+
+.analytics-item p{
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+.analytics-bar{
+
+  width:100%;
+
+  height:18px;
+
+  background:#ddd;
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.analytics-fill{
+
+  height:100%;
+
+  background:linear-gradient(
+    to right,
+    #43a047,
+    #00c853
+  );
+
+  border-radius:20px;
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+  .water-page{
+    padding:20px;
+  }
+
+  .water-card {
+    padding: 25px;
+  }
+
+  .water-card h1 {
+    font-size: 32px;
+  }
+
+  .water-card h2 {
+    font-size: 45px;
+  }
+
+  .water-buttons {
+    flex-direction: column;
+  }
+
+  .water-buttons button {
+    width: 100%;
+  }
+
+  .history-box li{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px;
+  }
+
+  .goal-box input{
+    width:100%;
+  }
+}
+.analytics-box{
+
+  margin-top:20px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:18px;
+}
+
+.analytics-item p{
+
+  margin-bottom:8px;
+
+  font-weight:bold;
+
+  color:#444;
+}
+
+.analytics-bar{
+
+  width:100%;
+
+  height:22px;
+
+  background:#e0e0e0;
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.analytics-fill{
+
+  height:100%;
+
+  border-radius:20px;
+
+  background:linear-gradient(
+    to right,
+    #43a047,
+    #00c853
+  );
+
+  transition:.4s ease;
+}

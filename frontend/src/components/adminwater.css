@@ -1,0 +1,277 @@
+.admin-water-page {
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e8fff1,
+      #fff5dc
+    );
+
+  font-family: Arial;
+}
+
+.admin-water-page h1 {
+
+  text-align: center;
+
+  margin-bottom: 40px;
+
+  color: #2e7d32;
+}
+
+.admin-water-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    );
+
+  gap: 25px;
+}
+
+.admin-water-card {
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.08);
+}
+
+.admin-water-card h2 {
+
+  color: #2e7d32;
+
+  margin-bottom: 10px;
+}
+
+.admin-water-card p {
+
+  margin: 10px 0;
+
+  color: #444;
+}
+
+.admin-progress {
+
+  width: 100%;
+
+  height: 20px;
+
+  background: #ddd;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  margin-top: 15px;
+}
+
+.admin-fill {
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      to right,
+      #43a047,
+      #00c853
+    );
+}
+.back-btn {
+
+  background:  linear-gradient(45deg, #4CAF50, orange);
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 18px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-bottom: 20px;
+
+  font-size: 16px;
+
+  font-weight: bold;
+}
+
+.back-btn:hover {
+
+  background: #e68900;
+}
+/* ✅ STATS */
+
+.stats-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 20px;
+
+  margin: 30px 0;
+}
+
+.stats-card {
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.1);
+}
+
+.stats-card h2 {
+
+  color: #2e7d32;
+
+  margin-bottom: 10px;
+}
+
+.stats-card p {
+
+  font-size: 24px;
+
+  font-weight: bold;
+}
+
+/* ✅ SEARCH */
+
+.search-input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  border: 1px solid #ccc;
+
+  margin-bottom: 25px;
+
+  font-size: 16px;
+}
+.chart-box {
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  margin-top: 30px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.1);
+}
+
+.chart-box h2 {
+
+  margin-bottom: 20px;
+
+  color: #2e7d32;
+}
+.filter-sort-box {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filter-sort-box select {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.delete-btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4d4d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #e60000;
+}
+.top-user-card {
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  margin-bottom: 25px;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.1);
+
+  text-align: center;
+}
+
+.top-user-card h2 {
+
+  color: #2e7d32;
+
+  margin-bottom: 10px;
+}
+
+.top-user-card h3 {
+
+  font-size: 28px;
+
+  margin-bottom: 10px;
+}
+
+.top-user-card p {
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  color: #4caf50;
+}
+
+.status-badge {
+
+  background: #f1f8e9;
+
+  display: inline-block;
+
+  padding: 6px 14px;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+
+  margin-bottom: 10px;
+
+  font-weight: bold;
+}

@@ -1,24 +1,37 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+
 import {
   FaUserCircle,
   FaBars,
   FaTimes,
   FaSearch,
-  FaHeart
+  FaHeart,
+  FaUser,
+  FaChartBar,
+  FaCog,
+  FaSignOutAlt
 } from "react-icons/fa";
 
 import logo from "../assets/logo.png";
 import "./Navbar.css";
 
 export default function Navbar() {
-  const { user, logout } = useContext(AuthContext);
+
+  const { user, logout } =
+    useContext(AuthContext);
+
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  const [mobile, setMobile] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const [open, setOpen] =
+    useState(false);
+
+  const [mobile, setMobile] =
+    useState(false);
+
+  const [searchText, setSearchText] =
+    useState("");
 
   const savedProfile = JSON.parse(
     localStorage.getItem("profileData")
@@ -33,6 +46,7 @@ export default function Navbar() {
     savedProfile?.image || "";
 
   const handleLogout = () => {
+
     logout();
 
     localStorage.removeItem("token");
@@ -40,6 +54,7 @@ export default function Navbar() {
     localStorage.removeItem("adminToken");
 
     setOpen(false);
+
     navigate("/");
   };
 
@@ -49,7 +64,9 @@ export default function Navbar() {
   };
 
   const handleSearch = () => {
-    const value = searchText.trim();
+
+    const value =
+      searchText.trim();
 
     if (!value) return;
 
@@ -61,12 +78,14 @@ export default function Navbar() {
   };
 
   const handleKeyDown = (e) => {
+
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
+
     <nav className="navbar">
 
       {/* LEFT */}
@@ -74,8 +93,16 @@ export default function Navbar() {
         className="logo-box"
         onClick={() => navigate("/")}
       >
-        <img src={logo} alt="logo" />
-        <span>NutriNest</span>
+
+        <img
+          src={logo}
+          alt="logo"
+        />
+
+        <span>
+          NutriNest
+        </span>
+
       </div>
 
       {/* CENTER */}
@@ -147,6 +174,7 @@ export default function Navbar() {
       <div className="right-box">
 
         {!user ? (
+
           <div className="auth-btns">
 
             <Link to="/login">
@@ -161,9 +189,12 @@ export default function Navbar() {
             </Link>
 
           </div>
+
         ) : (
+
           <div className="profile-area">
 
+            {/* PROFILE ICON */}
             <div
               className="profile-icon"
               onClick={() =>
@@ -172,97 +203,147 @@ export default function Navbar() {
             >
 
               {profileImage ? (
+
                 <img
                   src={profileImage}
                   alt="profile"
                   className="nav-user-img"
                 />
+
               ) : (
+
                 <FaUserCircle />
+
               )}
 
             </div>
 
+            {/* DROPDOWN */}
             {open && (
+
               <div className="dropdown">
 
+                {/* USER NAME */}
                 <div className="drop-user-name">
                   {profileName}
                 </div>
 
+                {/* PROFILE */}
                 <div
+                  className="dropdown-item"
                   onClick={() => {
-                    navigate(
-                      "/profile"
-                    );
+
+                    navigate("/profile");
+
                     setOpen(false);
                   }}
                 >
-                  👤 Profile
+
+                  <FaUser />
+
+                  <span>
+                    Profile
+                  </span>
+
                 </div>
 
+                {/* FAVORITES */}
                 <div
+                  className="dropdown-item"
                   onClick={() => {
-                    navigate(
-                      "/favorites"
-                    );
+
+                    navigate("/favorites");
+
                     setOpen(false);
                   }}
                 >
+
                   <FaHeart />
-                  Favorites
+
+                  <span>
+                    Favorites
+                  </span>
+
                 </div>
 
+                {/* DASHBOARD */}
                 <div
+                  className="dropdown-item"
                   onClick={() => {
-                    navigate(
-                      "/dashboard"
-                    );
+
+                    navigate("/dashboard");
+
                     setOpen(false);
                   }}
                 >
-                  📊 Dashboard
+
+                  <FaChartBar />
+
+                  <span>
+                    Dashboard
+                  </span>
+
                 </div>
 
-                {user?.role ===
-                  "admin" && (
+                {/* ADMIN */}
+                {user?.role === "admin" && (
+
                   <div
+                    className="dropdown-item"
                     onClick={() => {
-                      navigate(
-                        "/admin"
-                      );
+
+                      navigate("/admin");
+
                       setOpen(false);
                     }}
                   >
-                    ⚙ Admin Panel
+
+                    <FaCog />
+
+                    <span>
+                      Admin Panel
+                    </span>
+
                   </div>
+
                 )}
 
+                {/* LOGOUT */}
                 <div
-                  className="logout"
+                  className="dropdown-item logout"
                   onClick={handleLogout}
                 >
-                  🚪 Logout
+
+                  <FaSignOutAlt />
+
+                  <span>
+                    Logout
+                  </span>
+
                 </div>
 
               </div>
+
             )}
 
           </div>
+
         )}
 
-        {/* MOBILE */}
+        {/* MOBILE MENU */}
         <div
           className="menu-toggle"
           onClick={() =>
             setMobile(!mobile)
           }
         >
+
           {mobile ? (
             <FaTimes />
           ) : (
             <FaBars />
           )}
+
         </div>
 
       </div>

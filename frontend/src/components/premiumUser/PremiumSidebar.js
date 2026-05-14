@@ -1,5 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useLocation } from "react-router-dom";
+
 import {
   FaHome,
   FaUtensils,
@@ -11,114 +13,218 @@ import {
   FaCog,
   FaSignOutAlt,
   FaCloudUploadAlt,
-  FaVideo
+  FaVideo,
+  FaEnvelope
 } from "react-icons/fa";
-import { FaEnvelope } from "react-icons/fa";
 
 export default function PremiumSidebar({
   onLogout,
   onOpenShortUpload
 }) {
+
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  // =========================
+  // MENU ITEMS
+  // =========================
+
+  const menuItems = [
+
+    {
+      name: "Dashboard",
+      icon: <FaHome />,
+      path: "/premium-dashboard"
+    },
+
+    {
+      name: "Recipes",
+      icon: <FaUtensils />,
+      path: "/recipes"
+    },
+
+    {
+      name: "Favorites",
+      icon: <FaHeart />,
+      path: "/favorites"
+    },
+
+    {
+      name: "Shorts",
+      icon: <FaPlayCircle />,
+      path: "/premium/shorts"
+    },
+
+    {
+      name: "Community",
+      icon: <FaUsers />,
+      path: "/premium/community"
+    },
+
+    {
+      name: "Messages",
+      icon: <FaEnvelope />,
+      path: "/premium/messages"
+    },
+
+    {
+      name: "BMI Tracker",
+      icon: <FaChartBar />,
+      path: "/premium/bmi"
+    },
+
+    {
+      name: "Water Intake",
+      icon: <FaTint />,
+      path: "/premium/water"
+    },
+
+    {
+      name: "Settings",
+      icon: <FaCog />,
+      path: "/premium/settings"
+    }
+  ];
+
   return (
+
     <div className="sidebar">
 
-      <h2 className="logo">NutriNest</h2>
+      {/* LOGO */}
+
+      <h2
+        className="logo"
+        onClick={() =>
+          navigate("/premium-dashboard")
+        }
+      >
+        NutriNest
+      </h2>
+
+      {/* MENU */}
 
       <ul className="menu">
 
-        <li className="active">
-          <FaHome />
-          <span>Dashboard</span>
-        </li>
+        {menuItems.map((item, index) => (
 
-        <li>
-          <FaUtensils />
-          <span>Recipes</span>
-        </li>
+          <li
 
-        <li>
-          <FaHeart />
-          <span>Favorites</span>
-        </li>
-<li onClick={() => navigate("/premium/shorts")}>
-  <FaPlayCircle />
-  <span>Shorts</span>
-</li>
-       
+            key={index}
 
-        <li>
-          <FaUsers />
-          <span>Community</span>
-        </li>
-<li onClick={() => navigate("/premium/messages")}>
-  <FaEnvelope />
-  <span>Messages</span>
-</li>
-        <li>
-          <FaChartBar />
-          <span>BMI Tracker</span>
-        </li>
+            className={
+              location.pathname === item.path
+                ? "active"
+                : ""
+            }
 
-        <li>
-          <FaTint />
-          <span>Water Intake</span>
-        </li>
+            onClick={() =>
+              navigate(item.path)
+            }
+          >
 
-        <li>
-          <FaCog />
-          <span>Settings</span>
-        </li>
+            {item.icon}
 
-        <li className="logout-item" onClick={onLogout}>
+            <span>
+              {item.name}
+            </span>
+
+          </li>
+        ))}
+
+        {/* LOGOUT */}
+
+        <li
+          className="logout-item"
+
+          onClick={onLogout}
+        >
+
           <FaSignOutAlt />
-          <span>Logout</span>
+
+          <span>
+            Logout
+          </span>
+
         </li>
 
       </ul>
 
-      {/* Recipe Upload Card */}
+      {/* ========================= */}
+      {/* RECIPE UPLOAD CARD */}
+      {/* ========================= */}
+
       <div className="upload-card">
+
         <img
           src="https://images.unsplash.com/photo-1547592180-85f173990554?w=500"
           alt="Healthy Food"
         />
 
-        <h4>Share Your Recipe</h4>
+        <h4>
+          Share Your Recipe
+        </h4>
 
-        <p>Upload recipe and inspire users.</p>
+        <p>
+          Upload recipe and inspire users.
+        </p>
 
-        <button>
+        <button
+          onClick={() =>
+            navigate("/upload-recipe")
+          }
+        >
+
           <FaCloudUploadAlt />
-          <span>Upload Now</span>
+
+          <span>
+            Upload Now
+          </span>
+
         </button>
+
       </div>
 
-      {/* Shorts Upload Card */}
+      {/* ========================= */}
+      {/* SHORT VIDEO CARD */}
+      {/* ========================= */}
+
       <div className="short-video-card">
+
         <img
           src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500"
           alt="Short Video"
         />
 
-        <h4>Upload Short Video</h4>
+        <h4>
+          Upload Short Video
+        </h4>
 
-        <p>Share quick healthy recipe reels.</p>
+        <p>
+          Share quick healthy recipe reels.
+        </p>
 
-        {/* 🔥 FIXED BUTTON (safe handling) */}
         <button
+
           onClick={() => {
-            console.log("Upload Reel clicked"); // debug
+
             if (onOpenShortUpload) {
+
               onOpenShortUpload();
+
             } else {
-              console.log("❌ onOpenShortUpload not passed");
+
+              navigate("/premium/shorts");
             }
           }}
         >
+
           <FaVideo />
-          <span>Upload Reel</span>
+
+          <span>
+            Upload Reel
+          </span>
+
         </button>
 
       </div>

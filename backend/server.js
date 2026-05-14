@@ -1,18 +1,23 @@
 require("dotenv").config();
 const express = require("express");
+const homeRoutes =
+  require("./routes/homeRoutes");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const dashboardRoutes = require("./routes/dashboardRoutes");
 /* ======================
    Middleware
 ====================== */
 app.use(cors());
 app.use(express.json());
-
+app.use(
+  "/uploads",
+  express.static("uploads")
+);
 // 🔍 DEBUG LOGGER (important)
 app.use((req, res, next) => {
   console.log(`👉 ${req.method} ${req.url}`);
@@ -40,9 +45,16 @@ const tipRoutes = require("./routes/tipRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+
 // ✅ NEW (Short Video Routes)
 const shortVideoRoutes = require("./routes/shortVideoRoutes");
-
+const shortRoutes = require("./routes/shortVideoRoutes");
+const bmiRoutes =
+  require("./routes/bmiRoutes");
+  const waterRoutes =
+  require("./routes/waterRoutes");
+  const communityRoutes =
+require("./routes/communityRoutes");
 /* ======================
    API Routes
 ====================== */
@@ -53,9 +65,25 @@ app.use("/api/tips", tipRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/messages", messageRoutes);
+app.use(
+  "/api/bmi",
+  bmiRoutes
+);
+app.use(
+  "/api/water",
+  waterRoutes
+);
+app.use(
+  "/api/community",
+  communityRoutes
+);
+
+
 // ✅ NEW ROUTE
 app.use("/api/videos", shortVideoRoutes);
-
+app.use("/api/videos", shortRoutes);
+app.use("/api/home", homeRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 /* ======================
    Health Check
 ====================== */

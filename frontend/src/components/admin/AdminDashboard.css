@@ -11,7 +11,14 @@
   font-family: Arial, sans-serif;
 
   /* Home page jaisa background */
-  background: linear-gradient(135deg, #e8f5e9, #fff3e0, #e8f5e9);
+  background:  radial-gradient(circle at 10% 20%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 25% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 45% 15%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 65% 35%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 85% 25%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    radial-gradient(circle at 20% 70%, rgba(34,197,94,.08) 0 30px, transparent 31px),
+    radial-gradient(circle at 75% 80%, rgba(255,170,0,.10) 0 35px, transparent 36px),
+    linear-gradient(135deg,#e8fff1 0%,#dff8e7 45%,#fff5dc 100%);
   background-size: 300% 300%;
   animation: bgMove 8s ease infinite;
 }
@@ -56,22 +63,30 @@
   flex-direction: column;
   gap: 14px;
 }
-
-.menu-item {
-  text-decoration: none;
-  color: #333;
-  padding: 12px 15px;
-  border-radius: 10px;
-  transition: 0.3s;
-  font-weight: 600;
+.menu-item{
+  text-decoration:none;
+  color:#333;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:600;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
 }
 
-.menu-item:hover,
-.menu-item.active {
-  background: linear-gradient(to right, #43a047, #ff9800);
-  color: white;
-  transform: translateX(5px);
+.menu-item:hover{
+  background:linear-gradient(to right,#38b000,#ffb703);
+  color:white;
+  transform:translateX(6px) scale(1.02);
+  box-shadow:0 8px 18px rgba(0,0,0,0.12);
 }
+
+.menu-item.active{
+  background:linear-gradient(to right,#38b000,#ffb703);
+  color:white;
+  box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
 
 /* Content */
 .admin-content {
@@ -192,4 +207,17 @@
   .admin-content {
     padding: 20px;
   }
+}   
+.menu-item:hover{
+  background: linear-gradient(to right,#38b000,#ffb703) !important;
+  color: white !important;
+}
+
+.menu-item:hover *{
+  color:white !important;
+}
+
+.menu-item.active{
+  background: linear-gradient(to right,#38b000,#ffb703) !important;
+  color:white !important;
 }

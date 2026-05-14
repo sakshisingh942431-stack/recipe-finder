@@ -1,8 +1,11 @@
-      import React, { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../../utils/auth";
 import "./admin.css";
 
 const AddRecipe = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -50,7 +53,47 @@ const AddRecipe = () => {
   };
 
   return (
-    <div className="admin-layout">
+    <div
+  className="admin-layout"
+  style={{
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #e8f5e9, #fff3e0)",
+    padding: "30px"
+  }}
+>
+
+      {/* 🔥 TOP BAR */}
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            marginRight: "10px",
+            padding: "8px 14px",
+            background: " linear-gradient(45deg, #4CAF50, orange)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer"
+          }}
+        >
+          ⬅ Back
+        </button>
+
+        <button
+          onClick={() => navigate("/admin")}
+          style={{
+            padding: "8px 14px",
+            background: " linear-gradient(45deg, #4CAF50, orange)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer"
+          }}
+        >
+          🏠 Dashboard
+        </button>
+      </div>
+
       <h2>Add New Recipe</h2>
 
       <form onSubmit={handleSubmit} className="admin-form">

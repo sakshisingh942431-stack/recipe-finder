@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import {
   FaHeart,
   FaBell,
@@ -22,13 +23,12 @@ import {
 import PremiumSidebar from "./PremiumSidebar";
 import "./premiumDashboard.css";
 
-// 🔥 NEW: import messages component
+// 🔥 components
 import UserMessages from "../UserMessages";
-
-// 🔥 NEW: import upload component
 import ShortUpload from "../ShortUpload";
 import ShortVideos from "../ShortVideos";
 import ShortReels from "../ShortReels";
+
 export default function PremiumDashboard() {
 
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function PremiumDashboard() {
     JSON.parse(localStorage.getItem("favorites")) || []
   );
 
-  // 🔥 NEW: upload toggle state
+  // 🔥 upload toggle
   const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
@@ -123,31 +123,46 @@ export default function PremiumDashboard() {
   ];
 
   return (
+    
     <div className="dashboard-container">
 
-      {/* 🔥 UPDATED: pass handler to sidebar */}
+
+      {/* Sidebar */}
       <PremiumSidebar
         onLogout={handleLogout}
-        onOpenShortUpload={() => setShowUpload(true)}
+        onOpenShortUpload={() => setShowUpload(prev => !prev)} // 🔥 toggle fix
       />
 
       <div className="main-content">
+     <div
+  className="premium-back-icon"
+  onClick={() => navigate(-1)}
+>
+  <FaArrowLeft />
+</div>   
+{/* TOPBAR */}
 
-        {/* TOPBAR */}
-        <div className="topbar">
-          <input type="text" placeholder="Search healthy recipes..." />
+<div className="topbar premium-clean-topbar">
 
-          <div className="top-actions">
-            <div className="icon-ball"><FaBell /></div>
-            <div className="profile">👤 {userName}</div>
-          </div>
-        </div>
+  <div className="premium-user">
+
+   
+
+  </div>
+
+</div>
 
         {/* HERO */}
         <div className="hero-card">
           <div className="hero-left">
-            <h1>Welcome to NutriNest</h1>
-            <p>Discover healthy meals, track your fitness daily.</p>
+            <h1>Welcome to  NutriNest</h1>
+           {/* 🔥 USER NAME */}
+    <h3 className="premium-username">
+      {userName}
+    </h3>
+
+
+            <p className="hero-text">Discover healthy meals, track your fitness daily.</p>
 
             <button>🌟 Premium Active</button>
           </div>
@@ -160,9 +175,35 @@ export default function PremiumDashboard() {
           </div>
         </div>
 
-        {/* 🔥 NEW: Upload Form (non-intrusive placement) */}
+        {/* 🔥 Upload Section (improved UX) */}
         {showUpload && (
-          <div style={{ margin: "20px 0" }}>
+          <div
+            style={{
+              margin: "20px 0",
+              background: "#ffffff",
+              padding: "15px",
+              borderRadius: "12px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3>📤 Upload Short Video</h3>
+
+              <button
+                onClick={() => setShowUpload(false)}
+                style={{
+                  background: "#ef4444",
+                  color: "white",
+                  border: "none",
+                  padding: "4px 10px",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                ✖ Close
+              </button>
+            </div>
+
             <ShortUpload />
           </div>
         )}
@@ -284,9 +325,6 @@ export default function PremiumDashboard() {
 
         </div>
 
-        
-        
-<ShortVideos />
 
       </div>
     </div>

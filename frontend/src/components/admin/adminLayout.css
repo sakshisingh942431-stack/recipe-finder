@@ -1,0 +1,139 @@
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.admin-layout{
+
+  display: flex;
+
+  min-height: 100vh;
+
+  background: #edf3ec;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.admin-sidebar{
+
+  width: 270px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1b4332,
+      #081c15
+    );
+
+  padding: 35px 25px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  position: sticky;
+
+  top: 0;
+
+  height: 100vh;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.admin-sidebar h2{
+
+  color: white;
+
+  font-size: 42px;
+
+  margin-bottom: 30px;
+
+  font-weight: 800;
+
+  text-align: center;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.admin-sidebar a{
+
+  text-decoration: none;
+
+  color: #d8f3dc;
+
+  font-size: 22px;
+
+  padding: 16px 20px;
+
+  border-radius: 14px;
+
+  transition: 0.3s;
+
+  font-weight: 600;
+}
+
+.admin-sidebar a:hover{
+
+  background:
+    rgba(255,255,255,0.12);
+}
+
+/* =========================
+   ACTIVE LINK
+========================= */
+
+.admin-sidebar .active{
+
+  background:
+    linear-gradient(
+      to right,
+      #38b000,
+      #70e000
+    );
+
+  color: white;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.admin-content{
+
+  flex: 1;
+
+  padding: 30px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 900px){
+
+  .admin-layout{
+
+    flex-direction: column;
+  }
+
+  .admin-sidebar{
+
+    width: 100%;
+
+    height: auto;
+
+    position: relative;
+  }
+
+  .admin-content{
+
+    padding: 15px;
+  }
+}

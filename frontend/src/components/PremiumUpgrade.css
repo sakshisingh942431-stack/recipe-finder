@@ -222,3 +222,52 @@
     font-size: 1.8rem;
   }
 }
+/* 🔙 PREMIUM BACK BUTTON */
+
+.premium-back-icon {
+
+  position: absolute;
+
+  top: 28px;
+
+  left: 28px;
+
+  width: 46px;
+
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: white;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  color: #166534;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+  transition: all 0.25s ease;
+
+  z-index: 20;
+}
+
+.premium-back-icon:hover {
+
+  transform: translateY(-2px);
+
+  background: linear-gradient(
+    135deg,
+    #22c55e,
+    #f59e0b
+  );
+
+  color: white;
+}

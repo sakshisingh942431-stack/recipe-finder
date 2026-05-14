@@ -1,7 +1,17 @@
 // frontend/src/components/home.js
 
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {
+  useEffect,
+  useState
+} from "react";
+
+import axios from "axios";
+
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+
 import {
   FaHeartbeat,
   FaTint,
@@ -18,74 +28,132 @@ import "./home.css";
 import logo from "../assets/logo.png";
 
 const Home = () => {
-  const navigate = useNavigate();
 
-  const handleCuisineClick = (category) => {
-    navigate(
-      `/search?category=${encodeURIComponent(category)}`
-    );
-  };
+  const navigate =
+    useNavigate();
 
-  const handleDashboardClick = () => {
-    const token =
-      localStorage.getItem("token");
+  const [homeData, setHomeData] =
+    useState(null);
 
-    const adminToken =
-      localStorage.getItem(
-        "adminToken"
+  useEffect(() => {
+
+    const fetchHomeData =
+      async () => {
+
+        try {
+
+          const res =
+            await axios.get(
+              "http://localhost:5000/api/home"
+            );
+
+          console.log(
+            "HOME API:",
+            res.data
+          );
+
+          setHomeData(res.data);
+
+        } catch (err) {
+
+          console.log(err);
+
+        }
+      };
+
+    fetchHomeData();
+
+  }, []);
+
+  const handleCuisineClick =
+    (category) => {
+
+      navigate(
+        `/search?category=${encodeURIComponent(category)}`
       );
+    };
 
-    if (token || adminToken) {
-      navigate("/dashboard");
-    } else {
-      alert(
-        "Please login first"
-      );
-      navigate("/login");
-    }
-  };
+  const handleDashboardClick =
+    () => {
 
-  const features = [
-    {
-      icon: <FaUtensils />,
-      title:
-        "Healthy Recipes",
-    },
-    {
-      icon: <FaHeartbeat />,
-      title:
-        "BMI Tracker",
-    },
-    {
-      icon: <FaTint />,
-      title:
-        "Water Intake",
-    },
-    {
-      icon: <FaPlayCircle />,
-      title:
-        "Short Videos",
-    },
-    {
-      icon: <FaUsers />,
-      title:
-        "Community",
-    },
-    {
-      icon: <FaHeart />,
-      title:
-        "Favorites",
-    },
-  ];
+      const token =
+        localStorage.getItem(
+          "token"
+        );
 
+      const adminToken =
+        localStorage.getItem(
+          "adminToken"
+        );
+
+      if (
+        token ||
+        adminToken
+      ) {
+
+        navigate(
+          "/dashboard"
+        );
+
+      } else {
+
+        alert(
+          "Please login first"
+        );
+
+        navigate(
+          "/login"
+        );
+      }
+    };
+const features = [
+  {
+    id: 1,
+    icon: <FaUtensils />,
+    title: "Healthy Recipes",
+    route: "/search",
+  },
+  {
+    id: 2,
+    icon: <FaHeartbeat />,
+    title: "BMI Tracker",
+    route: "/bmi",
+  },
+  {
+    id: 3,
+    icon: <FaTint />,
+    title: "Water Intake",
+    route: "/water",
+  },
+  {
+    id: 4,
+    icon: <FaPlayCircle />,
+    title: "Short Videos",
+    route: "/shorts",
+  },
+  {
+    id: 5,
+    icon: <FaUsers />,
+    title: "Community",
+    route: "/community",
+  },
+  {
+    id: 6,
+    icon: <FaHeart />,
+    title: "Favorites",
+    route: "/favorites",
+  },
+];
   const categories = [
     {
       name: "Indian",
-      img: "/recipe-images/indian-food.jpg",
+      img:
+        "/recipe-images/indian-food.jpg",
     },
     {
       name: "Italian",
-      img: "/recipe-images/italian-food.jpg",
+      img:
+        "/recipe-images/italian-food.jpg",
     },
     {
       name: "Drinks",
@@ -94,15 +162,18 @@ const Home = () => {
     },
     {
       name: "Diet",
-      img: "/recipe-images/diet-food.jpg",
+      img:
+        "/recipe-images/diet-food.jpg",
     },
     {
       name: "Sweet",
-      img: "/recipe-images/sweet.jpg",
+      img:
+        "/recipe-images/sweet.jpg",
     },
   ];
 
   return (
+
     <div className="home-container">
 
       <div className="blob blob1"></div>
@@ -110,17 +181,23 @@ const Home = () => {
       <div className="blob blob3"></div>
 
       {/* HERO */}
+
       <section className="hero">
 
         <div className="home-hero-left">
 
           <span className="home-tagline">
+
             <FaLeaf />
+
             Healthy Living Platform
+
           </span>
 
           <h1>
+
             Eat Smart With
+
             <span>
               NutriNest
             </span>
@@ -130,14 +207,17 @@ const Home = () => {
               alt="logo"
               className="hero-logo"
             />
+
           </h1>
 
           <p>
+
             Discover healthy recipes,
             track calories,
             watch short videos
             and build better habits
             every day.
+
           </p>
 
           <div className="hero-btns">
@@ -160,35 +240,110 @@ const Home = () => {
 
           </div>
 
+          {/* DYNAMIC STATS */}
+
           <div className="hero-stats">
 
             <div>
-              <h3>1200+</h3>
-              <p>Recipes</p>
+
+              <h3>
+                {
+                  homeData?.stats
+                    ?.recipes || 0
+                }+
+              </h3>
+
+              <p>
+                Recipes
+              </p>
+
             </div>
 
             <div>
-              <h3>800+</h3>
-              <p>Users</p>
+
+              <h3>
+                {
+                  homeData?.stats
+                    ?.users || 0
+                }+
+              </h3>
+
+              <p>
+                Users
+              </p>
+
             </div>
 
             <div>
-              <h3>300+</h3>
-              <p>Videos</p>
+
+              <h3>
+                {
+                  homeData?.stats
+                    ?.videos || 0
+                }+
+              </h3>
+
+              <p>
+                Videos
+              </p>
+
             </div>
 
           </div>
+{/* DYNAMIC MINI TAGS */}
 
-          <div className="mini-recipes">
-            <div className="mini-recipe-card">
-              🥗 Weight Loss Meals
-            </div>
+<div className="mini-recipes">
 
-            <div className="mini-recipe-card">
-              🍳 Quick Breakfast
-            </div>
-          </div>
+  {
+    homeData?.miniTags &&
+    homeData.miniTags.map(
+      (tag, index) => (
 
+        <div
+          className="mini-recipe-card"
+          key={index}
+onClick={() => {
+const cleanTag =
+  tag.replace(/[^\w\s]/gi, "").trim();
+
+let searchValue = cleanTag;
+
+if (cleanTag === "Weight Loss Meals") {
+  searchValue = "Healthy";
+}
+
+if (cleanTag === "Quick Breakfast") {
+  searchValue = "Breakfast";
+}
+
+if (cleanTag === "Healthy Snacks") {
+  searchValue = "Snack";
+}
+
+if (cleanTag === "Fat Burner") {
+  searchValue = "Diet";
+}
+
+navigate(
+  `/search?q=${encodeURIComponent(searchValue)}`
+);
+ 
+
+}}
+         
+          style={{
+            cursor: "pointer"
+          }}
+        >
+          {tag}
+        </div>
+
+      )
+    )
+  }
+
+</div>
+ 
         </div>
 
         <div className="home-hero-right">
@@ -201,17 +356,23 @@ const Home = () => {
             />
 
             <div className="mini-card one">
+
               <FaChartLine />
+
               <span>
                 Calories
               </span>
+
             </div>
 
             <div className="mini-card two">
+
               <FaStar />
+
               <span>
                 Top Rated
               </span>
+
             </div>
 
           </div>
@@ -221,39 +382,43 @@ const Home = () => {
       </section>
 
       {/* FEATURES */}
-      <section className="features">
+<section className="features">
 
-        <h2>
-          Why Choose NutriNest?
-        </h2>
+  <h2>
+    Why Choose NutriNest?
+  </h2>
 
-        <div className="feature-grid">
+  <div className="feature-grid">
 
-          {features.map(
-            (
-              item,
-              index
-            ) => (
-              <div
-                className="feature-card"
-                key={index}
-              >
-                <div className="feature-icon">
-                  {item.icon}
-                </div>
+    {features.map((item) => (
 
-                <h3>
-                  {item.title}
-                </h3>
-              </div>
-            )
-          )}
+      <div
+        className="feature-card"
+        key={item.id}
 
+        onClick={() =>
+          navigate(item.route)
+        }
+      >
+
+        <div className="feature-icon">
+          {item.icon}
         </div>
 
-      </section>
+        <h3>
+          {item.title}
+        </h3>
 
-      {/* CATEGORY */}
+      </div>
+
+    ))}
+
+  </div>
+
+</section>
+    
+      {/* CATEGORIES */}
+
       <section className="categories">
 
         <h2>
@@ -276,6 +441,7 @@ const Home = () => {
                   )
                 }
               >
+
                 <img
                   src={item.img}
                   alt=""
@@ -284,6 +450,7 @@ const Home = () => {
                 <h3>
                   {item.name}
                 </h3>
+
               </div>
             )
           )}
@@ -293,6 +460,7 @@ const Home = () => {
       </section>
 
       {/* CTA */}
+
       <section className="cta">
 
         <div className="cta-box">
@@ -320,11 +488,17 @@ const Home = () => {
       </section>
 
       {/* FOOTER */}
+
       <footer className="footer">
-        <h3>NutriNest</h3>
+
+        <h3>
+          NutriNest
+        </h3>
+
         <p>
           Eat Better • Live Better
         </p>
+
       </footer>
 
     </div>

@@ -1,0 +1,88 @@
+.shorts-page{
+  min-height:100vh;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+}
+
+.shorts-back{
+  position:fixed;
+  top:20px;
+  left:20px;
+  z-index:100;
+  border:none;
+  background:#4caf50;
+  color:white;
+  padding:12px 22px;
+  border-radius:12px;
+  cursor:pointer;
+   font-weight:600;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  font-size:16px;
+}
+
+.shorts-title{
+  color:white;
+  margin-bottom:30px;
+  font-size:40px;
+  font-weight:700;
+}
+
+.shorts-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:40px;
+  width:100%;
+}
+
+.short-card{
+  position:relative;
+  width:370px;
+  height:720px;
+  border-radius:30px;
+  overflow:hidden;
+  background:black;
+  box-shadow:0 0 30px rgba(255,255,255,0.1);
+}
+
+.short-video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.short-info{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:20px;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,0.9)
+  );
+  color:white;
+}
+
+.short-info h3{
+  font-size:28px;
+  margin-bottom:12px;
+}
+
+.like-video-btn{
+  border:none;
+  background:#ff1744;
+  color:white;
+  padding:12px 22px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:17px;
+  font-weight:600;
+}
+
+.like-video-btn:hover{
+  transform:scale(1.05);
+}

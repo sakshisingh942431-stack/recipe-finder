@@ -1,123 +1,229 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
-import PremiumSidebar from "./premiumUser/PremiumSidebar";
+import React, {
+  useEffect,
+  useState
+} from "react";
+
+import {
+  useNavigate
+} from "react-router-dom";
+
+import {
+  FaHeart
+} from "react-icons/fa";
+
 import "./favorites.css";
 
 export default function Favorites() {
-  const navigate = useNavigate();
 
-  const [favorites, setFavorites] = useState([]);
-  const [userName, setUserName] = useState("User");
+  const navigate =
+    useNavigate();
 
-  const recipes = [
-    {
-      id: "111",
-      name: "High Protein Bowl",
-      calories: "320 Calories",
-      image:
-        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
-    },
-    {
-      id: "222",
-      name: "Weight Loss Salad",
-      calories: "210 Calories",
-      image:
-        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd"
-    },
-    {
-      id: "333",
-      name: "Fruit Smoothie",
-      calories: "180 Calories",
-      image:
-        "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4"
-    }
-  ];
+  const [favorites,
+    setFavorites] =
+    useState([]);
+
+  const [userName,
+    setUserName] =
+    useState("User");
+
+  // =========================
+  // LOAD FAVORITES
+  // =========================
 
   useEffect(() => {
+
     const user =
-      JSON.parse(localStorage.getItem("user")) || {};
+      JSON.parse(
+        localStorage.getItem("user")
+      ) || {};
 
     if (user.name) {
+
       setUserName(user.name);
     }
 
-    const liked =
-      JSON.parse(localStorage.getItem("favorites")) || [];
+    const savedRecipes =
+      JSON.parse(
+        localStorage.getItem("favorites")
+      ) || [];
 
-    const data = recipes.filter((item) =>
-      liked.includes(item.id)
-    );
+    setFavorites(savedRecipes);
 
-    setFavorites(data);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
+  // =========================
+  // REMOVE FAVORITE
+  // =========================
 
-  const removeFavorite = (id) => {
-    const updated = favorites.filter(
-      (item) => item.id !== id
-    );
+  const removeFavorite =
+    (id) => {
 
-    setFavorites(updated);
+      const updated =
+        favorites.filter(
+          (item) =>
+            item.id !== id
+        );
 
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify(updated.map((x) => x.id))
-    );
-  };
+      setFavorites(updated);
+
+      localStorage.setItem(
+        "favorites",
+        JSON.stringify(updated)
+      );
+    };
+
+  // =========================
+  // VIEW RECIPE
+  // =========================
+
+  const viewRecipe =
+    (id) => {
+
+      if (!id) {
+
+        alert(
+          "Recipe ID missing"
+        );
+
+        return;
+      }
+
+      navigate(
+        `/recipes/${id}`
+      );
+    };
+
+  // =========================
+  // UI
+  // =========================
 
   return (
+
     <div className="favorites-page">
-      <PremiumSidebar onLogout={handleLogout} />
 
       <div className="favorites-main">
 
+        {/* BACK */}
+
+        <button
+          onClick={() =>
+            navigate(-1)
+          }
+
+          style={{
+            padding:
+              "10px 20px",
+
+            border: "none",
+
+            borderRadius:
+              "10px",
+
+            background:
+              "#38b000",
+
+            color: "white",
+
+            cursor:
+              "pointer",
+
+            marginBottom:
+              "20px",
+
+            fontWeight:
+              "600"
+          }}
+        >
+          ← Back
+        </button>
+
+        {/* HERO */}
+
         <div className="favorites-hero">
-          <h1>❤️ My Favorites</h1>
-          <p>Welcome {userName}</p>
+
+          <h1>
+            ❤️ My Favorites
+          </h1>
+
+          <p>
+            Welcome {userName}
+          </p>
+
         </div>
+
+        {/* GRID */}
 
         <div className="favorites-grid">
 
           {favorites.length === 0 ? (
-            <h2>No favorites yet.</h2>
+
+            <h2>
+              No favorites yet.
+            </h2>
+
           ) : (
+
             favorites.map((item) => (
+
               <div
                 className="favorite-card"
+
                 key={item.id}
               >
+
+                {/* HEART */}
+
                 <button
                   className="remove-heart"
+
                   onClick={() =>
-                    removeFavorite(item.id)
+                    removeFavorite(
+                      item.id
+                    )
                   }
                 >
                   <FaHeart />
                 </button>
 
+                {/* IMAGE */}
+
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={
+                    item.image ||
+                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+                  }
+
+                  alt={
+                    item.title
+                  }
                 />
 
+                {/* BODY */}
+
                 <div className="favorite-body">
-                  <h3>{item.name}</h3>
-                  <p>{item.calories}</p>
+
+                  <h3>
+                    {item.title}
+                  </h3>
+
+                  <p>
+                    {item.calories}
+                  </p>
+
+                  {/* VIEW */}
 
                   <button
                     className="view-btn"
+
                     onClick={() =>
-                      navigate(`/recipes/${item.id}`)
+                      viewRecipe(
+                        item.id
+                      )
                     }
                   >
                     View Recipe
                   </button>
+
                 </div>
 
               </div>
@@ -125,7 +231,9 @@ export default function Favorites() {
           )}
 
         </div>
+
       </div>
+
     </div>
   );
 }

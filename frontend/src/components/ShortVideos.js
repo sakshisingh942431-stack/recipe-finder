@@ -1,48 +1,166 @@
-import React, { useEffect, useState } from "react";
+import React,
+{
+  useEffect,
+  useState
+} from "react";
+
 import axios from "axios";
 
+import {
+  useNavigate
+} from "react-router-dom";
+
+import "./shorts.css";
+
 const ShortVideos = () => {
-  const [videos, setVideos] = useState([]);
+
+  const navigate =
+    useNavigate();
+
+  const [videos,
+    setVideos] =
+    useState([]);
+
+  // ✅ FETCH VIDEOS
+
+  const fetchVideos =
+    async () => {
+
+      try {
+
+        const res =
+          await axios.get(
+
+            "http://localhost:5000/api/videos/user"
+          );
+
+        setVideos(
+          res.data || []
+        );
+
+      } catch (err) {
+
+        console.log(err);
+      }
+    };
 
   useEffect(() => {
+
     fetchVideos();
+
   }, []);
 
-  const fetchVideos = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/videos/user");
-      setVideos(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // ✅ LIKE VIDEO
+
+  const likeVideo =
+    async (id) => {
+
+      try {
+ const user =
+        JSON.parse(
+          localStorage.getItem("user")
+        );
+        await axios.put(
+
+`http://localhost:5000/api/videos/like/${id}`,
+   {
+          userId: user?.id,
+        }
+        );
+
+        fetchVideos();
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      <h2>🎬 Short Videos</h2>
 
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-        {videos.map((video) => (
-          <div
-            key={video._id}
-            style={{
-              width: "220px",
-              background: "#fff",
-              padding: "10px",
-              borderRadius: "10px",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
-            }}
-          >
-            <video width="100%" controls>
-              <source src={video.videoUrl} type="video/mp4" />
-            </video>
+    <div className="shorts-page">
 
-            <p style={{ marginTop: "8px", fontWeight: "500" }}>
-              {video.title}
-            </p>
-          </div>
-        ))}
+      {/* ✅ BACK BUTTON */}
+
+      <button
+        className="shorts-back"
+
+        onClick={() =>
+          navigate(-1)
+        }
+      >
+        ← Back
+      </button>
+
+      {/* ✅ TITLE */}
+
+      <h1 className="shorts-title">
+
+        NutriNest Shorts
+
+      </h1>
+
+      {/* ✅ VIDEOS */}
+
+      <div className="shorts-container">
+
+        {videos.map(
+          (video) => (
+
+            <div
+              key={video._id}
+
+              className="short-card"
+            >
+
+              {/* ✅ VIDEO */}
+
+              <video
+                controls
+
+                className="short-video"
+              >
+
+                <source
+                  src={video.videoUrl}
+
+                  type="video/mp4"
+                />
+
+              </video>
+
+              {/* ✅ INFO */}
+
+              <div className="short-info">
+
+                <h3>
+                  {video.title}
+                </h3>
+
+                <button
+                  className="like-video-btn"
+
+                  onClick={() =>
+                    likeVideo(
+                      video._id
+                    )
+                  }
+                >
+
+                  ❤️ {
+                    video.likes || 0
+                  }
+
+                </button>
+
+              </div>
+
+            </div>
+          )
+        )}
+
       </div>
+
     </div>
   );
 };
